@@ -1,0 +1,9 @@
+{"intents": [
+  {"intent": "NextQuestionIntent"},
+  {"intent": "YesIntent"},
+  {"intent": "NoIntent"},
+  {"intent": "ResultIntent"},
+  {"intent": "AMAZON.HelpIntent"},
+  {"intent": "AMAZON.CancelIntent"},
+  {"intent": "AMAZON.StopIntent"}
+]}

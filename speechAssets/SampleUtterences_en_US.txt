@@ -1,0 +1,9 @@
+YesIntent yes
+YesIntent yep
+YesIntent definitely
+YesIntent sure
+YesIntent Roger Roger
+
+NoIntent no
+NoIntent nope
+NoIntent nah
