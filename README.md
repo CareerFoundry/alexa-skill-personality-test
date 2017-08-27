@@ -1,4 +1,4 @@
-# Alexa Skill: Personality Test
+# Alexa Skill: Personality Quiz
 
 ## Description
 
