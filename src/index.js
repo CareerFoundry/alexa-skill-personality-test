@@ -19,11 +19,11 @@ const QUESTION_INTROS = [
   "I would have said that too.",
   "Makes sense."
 ];
-const RESULT_MESSAGE = "Congratulations! You are ";
+const RESULT_MESSAGE = "Congratulations! You are "; // the name of the result is inserted here.
 
 const pokemonList = {
   pikachu: {
-    name: "Pikachu",
+    name: "a Pikachu",
     audio_message: "Pikachus are pretty electric.",
     description: "Pikachus are pretty electric.",
     img: {
@@ -32,7 +32,7 @@ const pokemonList = {
     }
   },
   snorlax: {
-    name: "Snorlax",
+    name: "a Snorlax",
     audio_message: "You are generally rather boring.",
     description: "You are generally rather boring.",
     img: {
@@ -41,7 +41,7 @@ const pokemonList = {
     }
   },
   mewtwo: {
-    name: "Mewtwo",
+    name: "a Mewtwo",
     audio_message: "You are strong and powerful.",
     description: "You are strong and powerful.",
     img: {
@@ -50,7 +50,7 @@ const pokemonList = {
     }
   },
   charmander: {
-    name: "Charmander",
+    name: "a Charmander",
     audio_message: "You're hot!",
     description: "You're hot!",
     img: {
@@ -59,7 +59,7 @@ const pokemonList = {
     }
   },
   squirtle: {
-    name: "Squirtle",
+    name: "a Squirtle",
     audio_message: "You are athletic and cool.",
     description: "You are athletic and cool.",
     img: {
