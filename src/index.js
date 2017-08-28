@@ -6,14 +6,14 @@ const APP_ID = undefined;
 Data: Customize the data below as you please.
 ***********/
 
-const SKILL_NAME = "Personality Test";
-const HELP_MESSAGE = "Just answer my questions and I will tell you in the end what your spirit pokemon is.";
-const HELP_REPROMPT = "Don't worry. Just answer my questions and you'll see.";
-const STOP_MESSAGE = "Your spirit pokemon will for ever remain a secret.";
-const CANCEL_MESSAGE = "Shush.";
+const SKILL_NAME = "Personality Quiz";
+const HELP_MESSAGE = "Answer five questions, and I will tell you what animal you are.";
+const HELP_REPROMPT = "Your animal will be revealed after you answer my five yes or no questions.";
+const STOP_MESSAGE = "Your spirit animal will be waiting for you next time.";
+const CANCEL_MESSAGE = "Let's go back to the beginning.";
 const MISUNDERSTOOD_INSTRUCTIONS_ANSWER = "Please answer with either yes or no.";
 
-const WELCOME_MESSAGE = "Hi there! I can tell you your spirit pokemon. All you gotta do is answer five questions with yes or no. Do you want to try it?";
+const WELCOME_MESSAGE = "Hi! I can tell you what animal you're most like. All you have to do is answer five questions with either yes or no. Are you ready to start?";
 const QUESTION_INTROS = [
   "Fabulous!",
   "Alright.",
