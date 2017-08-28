@@ -23,6 +23,8 @@ const RESULT_MESSAGE = "Congratulations! You are ";
 
 const pokemonList = {
   pikachu: {
+    name: "Pikachu",
+    audio_message: "Pikachus are pretty electric.",
     description: "Pikachus are pretty electric.",
     img: {
       smallImageUrl: "https://s-media-cache-ak0.pinimg.com/736x/f5/1d/08/f51d08be05919290355ac004cdd5c2d6--pikachu-tattoo-pikachu-drawing.jpg",
@@ -30,6 +32,8 @@ const pokemonList = {
     }
   },
   snorlax: {
+    name: "Snorlax",
+    audio_message: "You are generally rather boring.",
     description: "You are generally rather boring.",
     img: {
       smallImageUrl: "https://vignette3.wikia.nocookie.net/pokemon/images/9/9f/143Snorlax_OS_anime.png/revision/latest?cb=20140924022259",
@@ -37,6 +41,8 @@ const pokemonList = {
     }
   },
   mewtwo: {
+    name: "Mewtwo",
+    audio_message: "You are strong and powerful.",
     description: "You are strong and powerful.",
     img: {
       smallImageUrl: "https://s-media-cache-ak0.pinimg.com/originals/e5/e7/1a/e5e71a159c81268f8e40838daa355fc2.png",
@@ -44,6 +50,8 @@ const pokemonList = {
     }
   },
   charmander: {
+    name: "Charmander",
+    audio_message: "You're hot!",
     description: "You're hot!",
     img: {
       smallImageUrl: "http://vignette4.wikia.nocookie.net/pokemon/images/5/55/004Charmander_OS_anime_3.png/revision/latest?cb=20150330015131",
@@ -51,6 +59,8 @@ const pokemonList = {
     }
   },
   squirtle: {
+    name: "Squirtle",
+    audio_message: "You are athletic and cool.",
     description: "You are athletic and cool.",
     img: {
       smallImageUrl: "https://vignette2.wikia.nocookie.net/pokemon/images/1/15/007Squirtle_XY_anime.png/revision/latest?cb=20140916184418",
@@ -187,7 +197,7 @@ const handlers = {
     // Determine the highest value:
     const pokemonPoints = this.attributes['pokemonPoints'];
     const result = Object.keys(pokemonPoints).reduce((o, i) => pokemonPoints[o] > pokemonPoints[i] ? o : i);
-    const resultMessage = `${RESULT_MESSAGE} ${result}`;
+    const resultMessage = `${RESULT_MESSAGE} ${result.name}. ${result.audio_message}`;
 
     this.emit(':tellWithCard', resultMessage, SKILL_NAME, pokemonList[result].description, pokemonList[result].img);
   },
