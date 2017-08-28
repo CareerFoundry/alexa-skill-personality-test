@@ -202,6 +202,12 @@ const handlers = {
 
     this.emit(':tellWithCard', resultMessage, SKILL_NAME, pokemonList[result].description, pokemonList[result].img);
   },
+  'AMAZON.RepeatIntent': function(){
+    var currentQuestion = questions[this.attributes['questionProgress']].question;
+
+    this.emit(':askWithCard', currentQuestion, HELP_MESSAGE, SKILL_NAME, currentQuestion);
+    //                        ^speechOutput    ^repromptSpeech ^cardTitle ^cardContent     ^imageObj
+  },
   'AMAZON.HelpIntent': function(){
     this.emit(':askWithCard', HELP_MESSAGE, HELP_REPROMPT, SKILL_NAME);
   },

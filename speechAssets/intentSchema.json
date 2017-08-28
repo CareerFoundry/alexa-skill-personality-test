@@ -3,6 +3,7 @@
   {"intent": "YesIntent"},
   {"intent": "NoIntent"},
   {"intent": "ResultIntent"},
+  {"intent": "AMAZON.RepeatIntent"},
   {"intent": "AMAZON.HelpIntent"},
   {"intent": "AMAZON.CancelIntent"},
   {"intent": "AMAZON.StopIntent"}
