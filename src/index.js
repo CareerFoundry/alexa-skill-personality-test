@@ -11,6 +11,7 @@ const HELP_MESSAGE = "Just answer my questions and I will tell you in the end wh
 const HELP_REPROMPT = "Don't worry. Just answer my questions and you'll see.";
 const STOP_MESSAGE = "Your spirit pokemon will for ever remain a secret.";
 const CANCEL_MESSAGE = "Shush.";
+const MISUNDERSTOOD_INSTRUCTIONS_ANSWER = "Please answer with either yes or no.";
 
 const WELCOME_MESSAGE = "Hi there! I can tell you your spirit pokemon. All you gotta do is answer five questions with yes or no. Do you want to try it?";
 const QUESTION_INTROS = [
@@ -209,6 +210,9 @@ const handlers = {
   },
   'AMAZON.StopIntent': function(){
     this.emit(':tellWithCard', STOP_MESSAGE, SKILL_NAME, STOP_MESSAGE);
+  },
+  'Unhandled': function(){
+    this.emit(':ask', MISUNDERSTOOD_INSTRUCTIONS_ANSWER);
   }
 };
 
