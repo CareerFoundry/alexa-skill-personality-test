@@ -37,93 +37,97 @@ const animalList = {
       largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Red-knobbed.starfish.1200.jpg"
     }
   },
-  snorlax: {
-    name: "a Snorlax",
-    audio_message: "You are generally rather boring.",
-    description: "You are generally rather boring.",
+  rustmite: {
+    name: "a rust mite",
+    display_name: "Rust Mite",
+    audio_message: "You are nearly invisible to the naked eye, but you aren't to be underestimated.",
+    description: "Dear old Aceria anthocoptes. Small but mighty, you love hanging around outdoors and have an unnatural affinity for thistles. Don't let anyone hold you back - while people don't notice you at first, you can have a big impact on the things around you.",
     img: {
-      smallImageUrl: "https://vignette3.wikia.nocookie.net/pokemon/images/9/9f/143Snorlax_OS_anime.png/revision/latest?cb=20140924022259",
-      largeImageUrl: "https://vignette3.wikia.nocookie.net/pokemon/images/9/9f/143Snorlax_OS_anime.png/revision/latest?cb=20140924022259"
+      smallImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Aceria_anthocoptes.720.jpeg",
+      largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Aceria_anthocoptes.1200.jpg"
     }
   },
-  mewtwo: {
-    name: "a Mewtwo",
-    audio_message: "You are strong and powerful.",
-    description: "You are strong and powerful.",
+  macaw: {
+    name: "a macaw",
+    display_name: "Hyacinth Macaw",
+    audio_message: "Macaws are smart and fabulous.",
+    description: "Your striking appearance is the talk of every party. You are always the most colorfully dressed one around. You're also one smart cookie - you were using tools to make your tasks easier before it was cool.",
     img: {
-      smallImageUrl: "https://s-media-cache-ak0.pinimg.com/originals/e5/e7/1a/e5e71a159c81268f8e40838daa355fc2.png",
-      largeImageUrl: "https://s-media-cache-ak0.pinimg.com/originals/e5/e7/1a/e5e71a159c81268f8e40838daa355fc2.png"
+      smallImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Anodorhynchus_hyacinthinus.720.jpg",
+      largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Anodorhynchus_hyacinthinus.1200.jpg"
     }
   },
-  charmander: {
-    name: "a Charmander",
-    audio_message: "You're hot!",
-    description: "You're hot!",
+  goat: {
+    name: "a goat",
+    display_name: "Good Old Goat",
+    audio_message: "Baaa! You are a goat.",
+    description: "Goats are some of the most amazing animals on Earth. Constantly underestimated, they are nearly as impervious to other peoples' opinions as honey badgers. You are quite handy to have around, as you're always happy to take care of leftovers at any party.",
     img: {
-      smallImageUrl: "http://vignette4.wikia.nocookie.net/pokemon/images/5/55/004Charmander_OS_anime_3.png/revision/latest?cb=20150330015131",
-      largeImageUrl: "http://vignette4.wikia.nocookie.net/pokemon/images/5/55/004Charmander_OS_anime_3.png/revision/latest?cb=20150330015131"
+      smallImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Male_goat.720.jpeg",
+      largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Male_goat.1200.jpg"
     }
   },
-  squirtle: {
-    name: "a Squirtle",
-    audio_message: "You are athletic and cool.",
-    description: "You are athletic and cool.",
+  toad: {
+    name: "a toad",
+    display_name: "Toad",
+    audio_message: "You dig relaxing and hanging around in the sunshine.",
+    description: "You are athletic and cool, the apple of everyone's eye. You really know how to take it easy and like to spend lots of time basking in the sun and enjoying the great outdoors. When you want to, you can be quite fast and nimble. You're always the first pick for team sports.",
     img: {
-      smallImageUrl: "https://vignette2.wikia.nocookie.net/pokemon/images/1/15/007Squirtle_XY_anime.png/revision/latest?cb=20140916184418",
-      largeImageUrl: "https://vignette2.wikia.nocookie.net/pokemon/images/1/15/007Squirtle_XY_anime.png/revision/latest?cb=20140916184418"
+      smallImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Bufo_boreas.720.jpeg",
+      largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Bufo_boreas.1200.jpg"
     }
   }
 };
 
 const questions = [
   {
-    question: "Do you like people?",
+    question: "Do you like spending time socializing with others?",
     points: {
       starfish: 4,
-      snorlax: 1,
-      mewtwo: 0,
-      charmander: 2,
-      squirtle: 1
+      rustmite: 0,
+      macaw: 5,
+      goat: 3,
+      toad: 1
     }
   },
   {
-    question: "Do you like rocks?",
-    points: {
-      starfish: 5,
-      snorlax: 3,
-      mewtwo: 4,
-      charmander: 2,
-      squirtle: 1
-    }
-  },
-  {
-    question: "Do you ever feel particularly powerful?",
+    question: "Do you enjoy sunbathing?",
     points: {
       starfish: 4,
-      snorlax: 0,
-      mewtwo: 5,
-      charmander: 3,
-      squirtle: 2
+      rustmite: 1,
+      macaw: 2,
+      goat: 3,
+      toad: 5
     }
   },
   {
-    question: "Does it make you happy to see things go up in flames?",
+    question: "Do you enjoy reading a good book more than going out to a party?",
     points: {
-      starfish: 3,
-      snorlax: 1,
-      mewtwo: 2,
-      charmander: 5,
-      squirtle: 0
+      starfish: 0,
+      rustmite: 5,
+      macaw: 1,
+      goat: 3,
+      toad: 4
     }
   },
   {
-    question: "Do you prefer vacation on the ocean?",
+    question: "Do you like doing sports?",
     points: {
-      starfish: 5,
-      snorlax: 4,
-      mewtwo: 3,
-      charmander: 0,
-      squirtle: 5
+      starfish: 2,
+      rustmite: 3,
+      macaw: 4,
+      goat: 4,
+      toad: 5
+    }
+  },
+  {
+    question: "Do you prefer vacationing in the forest instead of on the beach?",
+    points: {
+      starfish: 0,
+      rustmite: 5,
+      macaw: 3,
+      goat: 4,
+      toad: 5
     }
   }
 ];
