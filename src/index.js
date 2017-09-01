@@ -21,7 +21,7 @@ const QUESTION_INTROS = [
   "Of course.",
   "I knew it.",
   "Totally agree.",
-  "So true."
+  "So true.",
   "I agree."
 ];
 const RESULT_MESSAGE = "Here comes the big reveal! You are "; // the name of the result is inserted here.
