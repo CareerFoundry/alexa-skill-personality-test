@@ -240,5 +240,3 @@ exports.handler = (event, context, callback) => {
   alexa.registerHandlers(handlers);
   alexa.execute();
 };
-  alexa.execute();
-};
