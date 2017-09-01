@@ -15,21 +15,26 @@ const MISUNDERSTOOD_INSTRUCTIONS_ANSWER = "Please answer with either yes or no."
 
 const WELCOME_MESSAGE = "Hi! I can tell you what animal you're most like. All you have to do is answer five questions with either yes or no. Are you ready to start?";
 const QUESTION_INTROS = [
-  "Fabulous!",
-  "Alright.",
+  "You go, human!",
+  "Sure thing.",
   "I would have said that too.",
-  "Makes sense."
+  "Of course.",
+  "I knew it.",
+  "Totally agree.",
+  "So true."
+  "I agree."
 ];
-const RESULT_MESSAGE = "Congratulations! You are "; // the name of the result is inserted here.
+const RESULT_MESSAGE = "Here comes the big reveal! You are "; // the name of the result is inserted here.
 
-const pokemonList = {
-  pikachu: {
-    name: "a Pikachu",
-    audio_message: "Pikachus are pretty electric.",
-    description: "Pikachus are pretty electric.",
+const animalList = {
+  starfish: {
+    name: "a red-knobbed starfish",
+    display_name: "Red-Knobbed Starfish",
+    audio_message: "Starfish are amazing and can regrow their own limbs.",
+    description: "Red-knobbed starfish are known for being the fashionistas of the salt water world. They always know how to look good in any circumstance. You might enjoy hanging around the edge of the pool and keeping an eye on everyone.",
     img: {
-      smallImageUrl: "https://s-media-cache-ak0.pinimg.com/736x/f5/1d/08/f51d08be05919290355ac004cdd5c2d6--pikachu-tattoo-pikachu-drawing.jpg",
-      largeImageUrl: "https://s-media-cache-ak0.pinimg.com/736x/f5/1d/08/f51d08be05919290355ac004cdd5c2d6--pikachu-tattoo-pikachu-drawing.jpg"
+      smallImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Red-knobbed.starfish.720.jpeg",
+      largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Red-knobbed.starfish.1200.jpg"
     }
   },
   snorlax: {
@@ -74,18 +79,18 @@ const questions = [
   {
     question: "Do you like people?",
     points: {
-      pikachu: 4,
+      starfish: 4,
       snorlax: 1,
       mewtwo: 0,
       charmander: 2,
-      squirtle: 3
+      squirtle: 1
     }
   },
   {
     question: "Do you like rocks?",
     points: {
-      pikachu: 3,
-      snorlax: 5,
+      starfish: 5,
+      snorlax: 3,
       mewtwo: 4,
       charmander: 2,
       squirtle: 1
@@ -94,7 +99,7 @@ const questions = [
   {
     question: "Do you ever feel particularly powerful?",
     points: {
-      pikachu: 4,
+      starfish: 4,
       snorlax: 0,
       mewtwo: 5,
       charmander: 3,
@@ -104,7 +109,7 @@ const questions = [
   {
     question: "Does it make you happy to see things go up in flames?",
     points: {
-      pikachu: 3,
+      starfish: 3,
       snorlax: 1,
       mewtwo: 2,
       charmander: 5,
@@ -114,7 +119,7 @@ const questions = [
   {
     question: "Do you prefer vacation on the ocean?",
     points: {
-      pikachu: 1,
+      starfish: 5,
       snorlax: 4,
       mewtwo: 3,
       charmander: 0,
@@ -134,7 +139,7 @@ const _initializeApp = handler => {
   handler.attributes['questionProgress'] = -1;
   // Assign 0 points to each pokemon
   var initialPoints = {};
-  Object.keys(pokemonList).forEach(pokemon => initialPoints[pokemon] = 0);
+  Object.keys(animalList).forEach(pokemon => initialPoints[pokemon] = 0);
   handler.attributes['pokemonPoints'] = initialPoints;
 };
 
@@ -198,9 +203,9 @@ const handlers = {
     // Determine the highest value:
     const pokemonPoints = this.attributes['pokemonPoints'];
     const result = Object.keys(pokemonPoints).reduce((o, i) => pokemonPoints[o] > pokemonPoints[i] ? o : i);
-    const resultMessage = `${RESULT_MESSAGE} ${result.name}. ${result.audio_message}`;
+    const resultMessage = `${RESULT_MESSAGE} ${animalList[result].name}. ${animalList[result].audio_message}`;
 
-    this.emit(':tellWithCard', resultMessage, SKILL_NAME, pokemonList[result].description, pokemonList[result].img);
+    this.emit(':tellWithCard', resultMessage, animalList[result].display_name, animalList[result].description, animalList[result].img);
   },
   'AMAZON.RepeatIntent': function(){
     var currentQuestion = questions[this.attributes['questionProgress']].question;
@@ -228,5 +233,7 @@ exports.handler = (event, context, callback) => {
   const alexa = Alexa.handler(event, context);
   alexa.APP_ID = APP_ID;
   alexa.registerHandlers(handlers);
+  alexa.execute();
+};
   alexa.execute();
 };
