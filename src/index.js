@@ -179,9 +179,11 @@ const handlers = {
 
     // Store current question to read:
     var currentQuestion = questions[this.attributes['questionProgress']].question;
+    var randomQuestionIntro = function(){
     var randomQuestion = Math.floor(Math.random() * QUESTION_INTROS.length);
-    var randomQuestionIntro = QUESTION_INTROS.splice(randomQuestion, 1);
-    this.emit(':askWithCard', `${randomQuestionIntro} ${currentQuestion}`, HELP_MESSAGE, SKILL_NAME, currentQuestion);
+      return QUESTION_INTROS.splice(randomQuestion, 1);
+    }
+    this.emit(':askWithCard', `${randomQuestionIntro();} ${currentQuestion}`, HELP_MESSAGE, SKILL_NAME, currentQuestion);
     //                        ^speechOutput                               ^repromptSpeech ^cardTitle ^cardContent     ^imageObj
   },
   'YesIntent': function(){
