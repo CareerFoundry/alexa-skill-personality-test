@@ -41,6 +41,7 @@ const UNDECISIVE_RESPONSES = [
   "<say-as interpret-as='interjection'>Aw man</say-as>. How about this question?",
 ]
 const RESULT_MESSAGE = "Here comes the big reveal! You are "; // the name of the result is inserted here.
+const PLAY_AGAIN_REQUEST = "That was it. Do you want to play again?";
 
 const animalList = {
   starfish: {
@@ -165,6 +166,7 @@ const _initializeApp = handler => {
 
 const _nextQuestionOrResult = (handler, prependMessage = '') => {
   if(handler.attributes['questionProgress'] >= (questions.length - 1)){
+    handler.handler.state = states.RESULTMODE;
     handler.emitWithState('ResultIntent', prependMessage);
   }else{
     handler.emitWithState('NextQuestionIntent', prependMessage);
@@ -260,26 +262,49 @@ const quizModeHandlers = Alexa.CreateStateHandler(states.QUIZMODE, {
     Math.round(Math.random()) ? _applyAnimalPoints(this, _adder) : _applyAnimalPoints(this, _subtracter);
     _nextQuestionOrResult(this, _randomOfArray(UNDECISIVE_RESPONSES));
   },
+  'AMAZON.RepeatIntent': function(){
+    var currentQuestion = questions[this.attributes['questionProgress']].question;
+
+    this.emit(':askWithCard', currentQuestion, HELP_MESSAGE_AFTER_START, SKILL_NAME, currentQuestion);
+    //                        ^speechOutput    ^repromptSpeech           ^cardTitle ^cardContent     ^imageObj
+  },
+  'AMAZON.HelpIntent': function(){
+    this.emit(':askWithCard', HELP_MESSAGE_AFTER_START, HELP_REPROMPT, SKILL_NAME);
+  },
+  'AMAZON.CancelIntent': function(){
+    this.emit(':tellWithCard', CANCEL_MESSAGE, SKILL_NAME, CANCEL_MESSAGE);
+  },
+  'AMAZON.StopIntent': function(){
+    this.emit(':tellWithCard', STOP_MESSAGE, SKILL_NAME, STOP_MESSAGE);
+  },
+  'Unhandled': function(){
+    this.emit(':ask', MISUNDERSTOOD_INSTRUCTIONS_ANSWER);
+  }
+});
+
+
+const resultModeHandlers = Alexa.CreateStateHandler(states.RESULTMODE, {
   'ResultIntent': function(prependMessage = ''){
     // Determine the highest value:
     const animalPoints = this.attributes['animalPoints'];
     const result = Object.keys(animalPoints).reduce((o, i) => animalPoints[o] > animalPoints[i] ? o : i);
-    const resultMessage = `${RESULT_MESSAGE} ${animalList[result].name}. ${animalList[result].audio_message}`;
+    const resultMessage = `${prependMessage} ${RESULT_MESSAGE} ${animalList[result].name}. ${animalList[result].audio_message}. ${PLAY_AGAIN_REQUEST}`;
 
-    this.emit(':tellWithCard', `${prependMessage} ${resultMessage}`, animalList[result].display_name, animalList[result].description, animalList[result].img);
+    this.emit(':tellWithCard', resultMessage, animalList[result].display_name, animalList[result].description, animalList[result].img);
   },
-  'AMAZON.RepeatIntent': function(){
-    var currentQuestion = questions[this.attributes['questionProgress']].question;
-
-    this.emit(':askWithCard', currentQuestion, HELP_MESSAGE, SKILL_NAME, currentQuestion);
-    //                        ^speechOutput    ^repromptSpeech ^cardTitle ^cardContent     ^imageObj
+  'YesIntent': function(){
+    _initializeApp(this);
+    this.handler.state = states.QUIZMODE;
+    _nextQuestionOrResult(this);
+  },
+  'NoIntent': function(){
+    this.emitWithState('AMAZON.StopIntent');
   },
   'AMAZON.HelpIntent': function(){
-    var helpMessage = (this.attributes['questionProgress'] < 0) ? HELP_MESSAGE_BEFORE_START : HELP_MESSAGE_AFTER_START;
-    this.emit(':askWithCard', helpMessage, HELP_REPROMPT, SKILL_NAME);
+    this.emit(':askWithCard', HELP_MESSAGE_AFTER_START, HELP_REPROMPT, SKILL_NAME);
   },
   'AMAZON.CancelIntent': function(){
-    this.emit(':tellWithCard', CANCEL_MESSAGE, SKILL_NAME, CANCEL_MESSAGE);
+    this.emitWithState('AMAZON.StopIntent');
   },
   'AMAZON.StopIntent': function(){
     this.emit(':tellWithCard', STOP_MESSAGE, SKILL_NAME, STOP_MESSAGE);
@@ -294,6 +319,6 @@ const quizModeHandlers = Alexa.CreateStateHandler(states.QUIZMODE, {
 exports.handler = (event, context, callback) => {
   const alexa = Alexa.handler(event, context);
   alexa.APP_ID = APP_ID;
-  alexa.registerHandlers(newSessionHandlers, quizModeHandlers);
+  alexa.registerHandlers(newSessionHandlers, quizModeHandlers, resultModeHandlers);
   alexa.execute();
 };
