@@ -7,118 +7,144 @@ Data: Customize the data below as you please.
 ***********/
 
 const SKILL_NAME = "Personality Quiz";
-const HELP_MESSAGE = "Answer five questions, and I will tell you what animal you are.";
-const HELP_REPROMPT = "Your animal will be revealed after you answer my five yes or no questions.";
+const HELP_MESSAGE_BEFORE_START = "Answer five questions, and I will tell you what animal you are. Are you ready to play?";
+const HELP_MESSAGE_AFTER_START = "Just respond with yes or no and I'll give you the result in the end.";
+const HELP_REPROMPT = "Your animal will be revealed after you answer all my yes or no questions.";
 const STOP_MESSAGE = "Your spirit animal will be waiting for you next time.";
 const CANCEL_MESSAGE = "Let's go back to the beginning.";
 const MISUNDERSTOOD_INSTRUCTIONS_ANSWER = "Please answer with either yes or no.";
 
 const WELCOME_MESSAGE = "Hi! I can tell you what animal you're most like. All you have to do is answer five questions with either yes or no. Are you ready to start?";
-const QUESTION_INTROS = [
-  "Fabulous!",
-  "Alright.",
-  "I would have said that too.",
-  "Makes sense."
+const INITIAL_QUESTION_INTROS = [
+  "Great! Let's start!",
+  "<say-as interpret-as='interjection'>Alrighty</say-as>! Here comes your first question!",
+  "Ok let's go. <say-as interpret-as='interjection'>Ahem</say-as>.",
+  "<say-as interpret-as='interjection'>well well</say-as>."
 ];
-const RESULT_MESSAGE = "Congratulations! You are "; // the name of the result is inserted here.
+const QUESTION_INTROS = [
+  "Oh dear.",
+  "Okey Dokey",
+  "You go, human!",
+  "Sure thing.",
+  "I would have said that too.",
+  "Of course.",
+  "I knew it.",
+  "Totally agree.",
+  "So true.",
+  "I agree."
+];
+const UNDECISIVE_RESPONSES = [
+  "<say-as interpret-as='interjection'>Honk</say-as>. I'll just choose for you.",
+  "<say-as interpret-as='interjection'>Nanu Nanu</say-as>. I picked an answer for you.",
+  "<say-as interpret-as='interjection'>Uh oh</say-as>... well nothing I can do about that.",
+  "<say-as interpret-as='interjection'>Aha</say-as>. We will just move on then.",
+  "<say-as interpret-as='interjection'>Aw man</say-as>. How about this question?",
+]
+const RESULT_MESSAGE = "Here comes the big reveal! You are "; // the name of the result is inserted here.
+const PLAY_AGAIN_REQUEST = "That was it. Do you want to play again?";
 
-const pokemonList = {
-  pikachu: {
-    name: "a Pikachu",
-    audio_message: "Pikachus are pretty electric.",
-    description: "Pikachus are pretty electric.",
+const animalList = {
+  starfish: {
+    name: "a red-knobbed starfish",
+    display_name: "Red-Knobbed Starfish",
+    audio_message: "Starfish are amazing and can regrow their own limbs.",
+    description: "Red-knobbed starfish are known for being the fashionistas of the salt water world. They always know how to look good in any circumstance. You might enjoy hanging around the edge of the pool and keeping an eye on everyone.",
     img: {
-      smallImageUrl: "https://s-media-cache-ak0.pinimg.com/736x/f5/1d/08/f51d08be05919290355ac004cdd5c2d6--pikachu-tattoo-pikachu-drawing.jpg",
-      largeImageUrl: "https://s-media-cache-ak0.pinimg.com/736x/f5/1d/08/f51d08be05919290355ac004cdd5c2d6--pikachu-tattoo-pikachu-drawing.jpg"
+      smallImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Red-knobbed.starfish.720.jpeg",
+      largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Red-knobbed.starfish.1200.jpg"
     }
   },
-  snorlax: {
-    name: "a Snorlax",
-    audio_message: "You are generally rather boring.",
-    description: "You are generally rather boring.",
+  rustmite: {
+    name: "a rust mite",
+    display_name: "Rust Mite",
+    audio_message: "You are nearly invisible to the naked eye, but you aren't to be underestimated.",
+    description: "Dear old Aceria anthocoptes. Small but mighty, you love hanging around outdoors and have an unnatural affinity for thistles. Don't let anyone hold you back - while people don't notice you at first, you can have a big impact on the things around you.",
     img: {
-      smallImageUrl: "https://vignette3.wikia.nocookie.net/pokemon/images/9/9f/143Snorlax_OS_anime.png/revision/latest?cb=20140924022259",
-      largeImageUrl: "https://vignette3.wikia.nocookie.net/pokemon/images/9/9f/143Snorlax_OS_anime.png/revision/latest?cb=20140924022259"
+      smallImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Aceria_anthocoptes.720.jpeg",
+      largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Aceria_anthocoptes.1200.jpg"
     }
   },
-  mewtwo: {
-    name: "a Mewtwo",
-    audio_message: "You are strong and powerful.",
-    description: "You are strong and powerful.",
+  macaw: {
+    name: "a macaw",
+    display_name: "Hyacinth Macaw",
+    audio_message: "Macaws are smart and fabulous.",
+    description: "Your striking appearance is the talk of every party. You are always the most colorfully dressed one around. You're also one smart cookie - you were using tools to make your tasks easier before it was cool.",
     img: {
-      smallImageUrl: "https://s-media-cache-ak0.pinimg.com/originals/e5/e7/1a/e5e71a159c81268f8e40838daa355fc2.png",
-      largeImageUrl: "https://s-media-cache-ak0.pinimg.com/originals/e5/e7/1a/e5e71a159c81268f8e40838daa355fc2.png"
+      smallImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Anodorhynchus_hyacinthinus.720.jpg",
+      largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Anodorhynchus_hyacinthinus.1200.jpg"
     }
   },
-  charmander: {
-    name: "a Charmander",
-    audio_message: "You're hot!",
-    description: "You're hot!",
+  goat: {
+    name: "a goat",
+    display_name: "Good Old Goat",
+    audio_message: "Baaa! You are a goat.",
+    description: "Goats are some of the most amazing animals on Earth. Constantly underestimated, they are nearly as impervious to other peoples' opinions as honey badgers. You are quite handy to have around, as you're always happy to take care of leftovers at any party.",
     img: {
-      smallImageUrl: "http://vignette4.wikia.nocookie.net/pokemon/images/5/55/004Charmander_OS_anime_3.png/revision/latest?cb=20150330015131",
-      largeImageUrl: "http://vignette4.wikia.nocookie.net/pokemon/images/5/55/004Charmander_OS_anime_3.png/revision/latest?cb=20150330015131"
+      smallImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Male_goat.720.jpeg",
+      largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Male_goat.1200.jpg"
     }
   },
-  squirtle: {
-    name: "a Squirtle",
-    audio_message: "You are athletic and cool.",
-    description: "You are athletic and cool.",
+  toad: {
+    name: "a toad",
+    display_name: "Toad",
+    audio_message: "You dig relaxing and hanging around in the sunshine.",
+    description: "You are athletic and cool, the apple of everyone's eye. You really know how to take it easy and like to spend lots of time basking in the sun and enjoying the great outdoors. When you want to, you can be quite fast and nimble. You're always the first pick for team sports.",
     img: {
-      smallImageUrl: "https://vignette2.wikia.nocookie.net/pokemon/images/1/15/007Squirtle_XY_anime.png/revision/latest?cb=20140916184418",
-      largeImageUrl: "https://vignette2.wikia.nocookie.net/pokemon/images/1/15/007Squirtle_XY_anime.png/revision/latest?cb=20140916184418"
+      smallImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Bufo_boreas.720.jpeg",
+      largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Bufo_boreas.1200.jpg"
     }
   }
 };
 
 const questions = [
   {
-    question: "Do you like people?",
+    question: "Do you like spending time socializing with others?",
     points: {
-      pikachu: 4,
-      snorlax: 1,
-      mewtwo: 0,
-      charmander: 2,
-      squirtle: 3
+      starfish: 4,
+      rustmite: 0,
+      macaw: 5,
+      goat: 3,
+      toad: 1
     }
   },
   {
-    question: "Do you like rocks?",
+    question: "Do you enjoy sunbathing?",
     points: {
-      pikachu: 3,
-      snorlax: 5,
-      mewtwo: 4,
-      charmander: 2,
-      squirtle: 1
+      starfish: 4,
+      rustmite: 1,
+      macaw: 2,
+      goat: 3,
+      toad: 5
     }
   },
   {
-    question: "Do you ever feel particularly powerful?",
+    question: "Do you enjoy reading a good book more than going out to a party?",
     points: {
-      pikachu: 4,
-      snorlax: 0,
-      mewtwo: 5,
-      charmander: 3,
-      squirtle: 2
+      starfish: 0,
+      rustmite: 5,
+      macaw: 1,
+      goat: 3,
+      toad: 4
     }
   },
   {
-    question: "Does it make you happy to see things go up in flames?",
+    question: "Do you like doing sports?",
     points: {
-      pikachu: 3,
-      snorlax: 1,
-      mewtwo: 2,
-      charmander: 5,
-      squirtle: 0
+      starfish: 2,
+      rustmite: 3,
+      macaw: 4,
+      goat: 4,
+      toad: 5
     }
   },
   {
-    question: "Do you prefer vacation on the ocean?",
+    question: "Do you prefer vacationing in the forest instead of on the beach?",
     points: {
-      pikachu: 1,
-      snorlax: 4,
-      mewtwo: 3,
-      charmander: 0,
-      squirtle: 5
+      starfish: 0,
+      rustmite: 5,
+      macaw: 3,
+      goat: 4,
+      toad: 5
     }
   }
 ];
@@ -132,87 +158,75 @@ Execution Code: Avoid editing the code below if you don't know JavaScript.
 const _initializeApp = handler => {
   // Set the progress to -1 one in the beginning
   handler.attributes['questionProgress'] = -1;
-  // Assign 0 points to each pokemon
+  // Assign 0 points to each animal
   var initialPoints = {};
-  Object.keys(pokemonList).forEach(pokemon => initialPoints[pokemon] = 0);
-  handler.attributes['pokemonPoints'] = initialPoints;
+  Object.keys(animalList).forEach(animal => initialPoints[animal] = 0);
+  handler.attributes['animalPoints'] = initialPoints;
 };
 
-const _nextQuestionOrResult = handler => {
+const _nextQuestionOrResult = (handler, prependMessage = '') => {
   if(handler.attributes['questionProgress'] >= (questions.length - 1)){
-    handler.emitWithState('ResultIntent');
+    handler.handler.state = states.RESULTMODE;
+    handler.emitWithState('ResultIntent', prependMessage);
   }else{
-    handler.emitWithState('NextQuestionIntent');
+    handler.emitWithState('NextQuestionIntent', prependMessage);
   }
 };
 
-const _applyPokemonPoints = (handler, calculate) => {
-  const currentPoints = handler.attributes['pokemonPoints'];
+const _applyAnimalPoints = (handler, calculate) => {
+  const currentPoints = handler.attributes['animalPoints'];
   const pointsToAdd = questions[handler.attributes['questionProgress']].points;
 
-  handler.attributes['pokemonPoints'] = Object.keys(currentPoints).reduce((newPoints, pokemon) => {
-    newPoints[pokemon] = calculate(currentPoints[pokemon], pointsToAdd[pokemon]);
+  handler.attributes['animalPoints'] = Object.keys(currentPoints).reduce((newPoints, animal) => {
+    newPoints[animal] = calculate(currentPoints[animal], pointsToAdd[animal]);
     return newPoints;
   }, currentPoints);
 };
 
+const _randomQuestionIntro = handler => {
+  if(handler.attributes['questionProgress'] == 0){
+    // return random initial question intro if it's the first question:
+    return _randomOfArray(INITIAL_QUESTION_INTROS);
+  }else{
+    // Assign all question intros to remainingQuestionIntros on the first execution:
+    var remainingQuestionIntros = remainingQuestionIntros || QUESTION_INTROS;
+    // randomQuestion will return 0 if the remainingQuestionIntros are empty:
+    let randomQuestion = remainingQuestionIntros.splice(_randomIndexOfArray(remainingQuestionIntros), 1);
+    // Remove random Question from rameining question intros and return the removed question. If the remainingQuestions are empty return the first question:
+    return randomQuestion ? randomQuestion : QUESTION_INTROS[0];
+  }
+};
+
+const _randomIndexOfArray = (array) => Math.floor(Math.random() * array.length);
+const _randomOfArray = (array) => array[_randomIndexOfArray(array)];
 const _adder = (a, b) => a + b;
 const _subtracter = (a, b) => a - b;
 
 // Handle user input and intents:
 
-const handlers = {
+const states = {
+  QUIZMODE: "_QUIZMODE",
+  RESULTMODE: "_RESULTMODE"
+}
+
+const newSessionHandlers = {
   'NewSession': function(){
     _initializeApp(this);
-
     this.emit(':tellWithCard', WELCOME_MESSAGE, SKILL_NAME, WELCOME_MESSAGE);
     //                         ^speechOutput,   ^cardTitle, ^cardContent,   ^imageObj
   },
-  'NextQuestionIntent': function(){
-    // Increase the progress of asked questions by one:
-    this.attributes['questionProgress']++;
-
-    // Store current question to read:
-    var currentQuestion = questions[this.attributes['questionProgress']].question;
-    var randomQuestionIntro = QUESTION_INTROS[Math.floor(Math.random() * QUESTION_INTROS.length)];
-    this.emit(':askWithCard', `${randomQuestionIntro} ${currentQuestion}`, HELP_MESSAGE, SKILL_NAME, currentQuestion);
-    //                        ^speechOutput                               ^repromptSpeech ^cardTitle ^cardContent     ^imageObj
-  },
   'YesIntent': function(){
-    // Apply points unless user answers whether to start the app:
-    if(this.attributes['questionProgress'] > -1) _applyPokemonPoints(this, _adder);
-    // Ask next question or return results when answering the last question:
+    this.handler.state = states.QUIZMODE;
     _nextQuestionOrResult(this);
   },
   'NoIntent': function(){
-    if(this.attributes['questionProgress'] < 0){
-      // User decided not to play
-      this.emitWithState('AMAZON.StopIntent');
-    }else{
-      // User is responding to a given question
-      _applyPokemonPoints(this, _subtracter);
-      _nextQuestionOrResult(this);
-    }
-  },
-  'ResultIntent': function(){
-    // Determine the highest value:
-    const pokemonPoints = this.attributes['pokemonPoints'];
-    const result = Object.keys(pokemonPoints).reduce((o, i) => pokemonPoints[o] > pokemonPoints[i] ? o : i);
-    const resultMessage = `${RESULT_MESSAGE} ${result.name}. ${result.audio_message}`;
-
-    this.emit(':tellWithCard', resultMessage, SKILL_NAME, pokemonList[result].description, pokemonList[result].img);
-  },
-  'AMAZON.RepeatIntent': function(){
-    var currentQuestion = questions[this.attributes['questionProgress']].question;
-
-    this.emit(':askWithCard', currentQuestion, HELP_MESSAGE, SKILL_NAME, currentQuestion);
-    //                        ^speechOutput    ^repromptSpeech ^cardTitle ^cardContent     ^imageObj
+    this.emitWithState('AMAZON.StopIntent');
   },
   'AMAZON.HelpIntent': function(){
-    this.emit(':askWithCard', HELP_MESSAGE, HELP_REPROMPT, SKILL_NAME);
+    this.emit(':askWithCard', HELP_MESSAGE_BEFORE_START, HELP_REPROMPT, SKILL_NAME);
   },
   'AMAZON.CancelIntent': function(){
-    this.emit(':tellWithCard', CANCEL_MESSAGE, SKILL_NAME, CANCEL_MESSAGE);
+    this.emitWithState('AMAZON.StopIntent');
   },
   'AMAZON.StopIntent': function(){
     this.emit(':tellWithCard', STOP_MESSAGE, SKILL_NAME, STOP_MESSAGE);
@@ -223,10 +237,88 @@ const handlers = {
 };
 
 
+const quizModeHandlers = Alexa.CreateStateHandler(states.QUIZMODE, {
+  'NextQuestionIntent': function(prependMessage = ''){
+    // Increase the progress of asked questions by one:
+    this.attributes['questionProgress']++;
+    // Reference current question to read:
+    var currentQuestion = questions[this.attributes['questionProgress']].question;
+
+    this.emit(':askWithCard', `${prependMessage} ${_randomQuestionIntro(this)} ${currentQuestion}`, HELP_MESSAGE_AFTER_START, SKILL_NAME, currentQuestion);
+    //                        ^speechOutput                                                         ^repromptSpeech           ^cardTitle  ^cardContent     ^imageObj
+  },
+  'YesIntent': function(){
+    _applyAnimalPoints(this, _adder);
+    // Ask next question or return results when answering the last question:
+    _nextQuestionOrResult(this);
+  },
+  'NoIntent': function(){
+    // User is responding to a given question
+    _applyAnimalPoints(this, _subtracter);
+    _nextQuestionOrResult(this);
+  },
+  'UndecisiveIntent': function(){
+    // Randomly apply
+    Math.round(Math.random()) ? _applyAnimalPoints(this, _adder) : _applyAnimalPoints(this, _subtracter);
+    _nextQuestionOrResult(this, _randomOfArray(UNDECISIVE_RESPONSES));
+  },
+  'AMAZON.RepeatIntent': function(){
+    var currentQuestion = questions[this.attributes['questionProgress']].question;
+
+    this.emit(':askWithCard', currentQuestion, HELP_MESSAGE_AFTER_START, SKILL_NAME, currentQuestion);
+    //                        ^speechOutput    ^repromptSpeech           ^cardTitle ^cardContent     ^imageObj
+  },
+  'AMAZON.HelpIntent': function(){
+    this.emit(':askWithCard', HELP_MESSAGE_AFTER_START, HELP_REPROMPT, SKILL_NAME);
+  },
+  'AMAZON.CancelIntent': function(){
+    this.emit(':tellWithCard', CANCEL_MESSAGE, SKILL_NAME, CANCEL_MESSAGE);
+  },
+  'AMAZON.StopIntent': function(){
+    this.emit(':tellWithCard', STOP_MESSAGE, SKILL_NAME, STOP_MESSAGE);
+  },
+  'Unhandled': function(){
+    this.emit(':ask', MISUNDERSTOOD_INSTRUCTIONS_ANSWER);
+  }
+});
+
+
+const resultModeHandlers = Alexa.CreateStateHandler(states.RESULTMODE, {
+  'ResultIntent': function(prependMessage = ''){
+    // Determine the highest value:
+    const animalPoints = this.attributes['animalPoints'];
+    const result = Object.keys(animalPoints).reduce((o, i) => animalPoints[o] > animalPoints[i] ? o : i);
+    const resultMessage = `${prependMessage} ${RESULT_MESSAGE} ${animalList[result].name}. ${animalList[result].audio_message}. ${PLAY_AGAIN_REQUEST}`;
+
+    this.emit(':tellWithCard', resultMessage, animalList[result].display_name, animalList[result].description, animalList[result].img);
+  },
+  'YesIntent': function(){
+    _initializeApp(this);
+    this.handler.state = states.QUIZMODE;
+    _nextQuestionOrResult(this);
+  },
+  'NoIntent': function(){
+    this.emitWithState('AMAZON.StopIntent');
+  },
+  'AMAZON.HelpIntent': function(){
+    this.emit(':askWithCard', HELP_MESSAGE_AFTER_START, HELP_REPROMPT, SKILL_NAME);
+  },
+  'AMAZON.CancelIntent': function(){
+    this.emitWithState('AMAZON.StopIntent');
+  },
+  'AMAZON.StopIntent': function(){
+    this.emit(':tellWithCard', STOP_MESSAGE, SKILL_NAME, STOP_MESSAGE);
+  },
+  'Unhandled': function(){
+    this.emit(':ask', MISUNDERSTOOD_INSTRUCTIONS_ANSWER);
+  }
+});
+
+
 
 exports.handler = (event, context, callback) => {
   const alexa = Alexa.handler(event, context);
   alexa.APP_ID = APP_ID;
-  alexa.registerHandlers(handlers);
+  alexa.registerHandlers(newSessionHandlers, quizModeHandlers, resultModeHandlers);
   alexa.execute();
 };
