@@ -165,6 +165,15 @@ const _applyAnimalPoints = (handler, calculate) => {
   }, currentPoints);
 };
 
+const _randomQuestionIntro = () => {
+  // Assign all question intros to remainingQuestionIntros on the first execution:
+  let remainingQuestionIntros = remainingQuestionIntros || QUESTION_INTROS;
+  // Get a random question:
+  let randomQuestion = Math.floor(Math.random() * remainingQuestionIntros.length);
+  // Remove random Question from rameining question intros and return the removed question. If the remainingQuestions are empty return the first question:
+  return randomQuestion ? remainingQuestionIntros.splice(randomQuestion, 1) : QUESTION_INTROS[0];
+};
+
 const _adder = (a, b) => a + b;
 const _subtracter = (a, b) => a - b;
 
@@ -180,14 +189,10 @@ const handlers = {
   'NextQuestionIntent': function(){
     // Increase the progress of asked questions by one:
     this.attributes['questionProgress']++;
-
-    // Store current question to read:
+    // Reference current question to read:
     var currentQuestion = questions[this.attributes['questionProgress']].question;
-    var randomQuestionIntro = function(){
-    var randomQuestion = Math.floor(Math.random() * QUESTION_INTROS.length);
-      return QUESTION_INTROS.splice(randomQuestion, 1);
-    }
-    this.emit(':askWithCard', `${randomQuestionIntro();} ${currentQuestion}`, HELP_MESSAGE, SKILL_NAME, currentQuestion);
+
+    this.emit(':askWithCard', `${_randomQuestionIntro()} ${currentQuestion}`, HELP_MESSAGE, SKILL_NAME, currentQuestion);
     //                        ^speechOutput                               ^repromptSpeech ^cardTitle ^cardContent     ^imageObj
   },
   'YesIntent': function(){
