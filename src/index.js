@@ -141,10 +141,10 @@ Execution Code: Avoid editing the code below if you don't know JavaScript.
 const _initializeApp = handler => {
   // Set the progress to -1 one in the beginning
   handler.attributes['questionProgress'] = -1;
-  // Assign 0 points to each pokemon
+  // Assign 0 points to each animal
   var initialPoints = {};
-  Object.keys(animalList).forEach(pokemon => initialPoints[pokemon] = 0);
-  handler.attributes['pokemonPoints'] = initialPoints;
+  Object.keys(animalList).forEach(animal => initialPoints[animal] = 0);
+  handler.attributes['animalPoints'] = initialPoints;
 };
 
 const _nextQuestionOrResult = handler => {
@@ -155,12 +155,12 @@ const _nextQuestionOrResult = handler => {
   }
 };
 
-const _applyPokemonPoints = (handler, calculate) => {
-  const currentPoints = handler.attributes['pokemonPoints'];
+const _applyAnimalPoints = (handler, calculate) => {
+  const currentPoints = handler.attributes['animalPoints'];
   const pointsToAdd = questions[handler.attributes['questionProgress']].points;
 
-  handler.attributes['pokemonPoints'] = Object.keys(currentPoints).reduce((newPoints, pokemon) => {
-    newPoints[pokemon] = calculate(currentPoints[pokemon], pointsToAdd[pokemon]);
+  handler.attributes['animalPoints'] = Object.keys(currentPoints).reduce((newPoints, animal) => {
+    newPoints[animal] = calculate(currentPoints[animal], pointsToAdd[animal]);
     return newPoints;
   }, currentPoints);
 };
@@ -192,7 +192,7 @@ const handlers = {
   },
   'YesIntent': function(){
     // Apply points unless user answers whether to start the app:
-    if(this.attributes['questionProgress'] > -1) _applyPokemonPoints(this, _adder);
+    if(this.attributes['questionProgress'] > -1) _applyAnimalPoints(this, _adder);
     // Ask next question or return results when answering the last question:
     _nextQuestionOrResult(this);
   },
@@ -202,14 +202,14 @@ const handlers = {
       this.emitWithState('AMAZON.StopIntent');
     }else{
       // User is responding to a given question
-      _applyPokemonPoints(this, _subtracter);
+      _applyAnimalPoints(this, _subtracter);
       _nextQuestionOrResult(this);
     }
   },
   'ResultIntent': function(){
     // Determine the highest value:
-    const pokemonPoints = this.attributes['pokemonPoints'];
-    const result = Object.keys(pokemonPoints).reduce((o, i) => pokemonPoints[o] > pokemonPoints[i] ? o : i);
+    const animalPoints = this.attributes['animalPoints'];
+    const result = Object.keys(animalPoints).reduce((o, i) => animalPoints[o] > animalPoints[i] ? o : i);
     const resultMessage = `${RESULT_MESSAGE} ${animalList[result].name}. ${animalList[result].audio_message}`;
 
     this.emit(':tellWithCard', resultMessage, animalList[result].display_name, animalList[result].description, animalList[result].img);
