@@ -3,7 +3,35 @@ YesIntent yep
 YesIntent definitely
 YesIntent sure
 YesIntent Roger Roger
+YesIntent Okay
+YesIntent yea
+YesIntent well yea
+YesIntent maybe
+YesIntent perhaps
+YesIntent probably
+YesIntent more likely
+YesIntent somewhat
 
 NoIntent no
 NoIntent nope
 NoIntent nah
+NoIntent not really
+NoIntent better not
+NoIntent certainly not
+NoIntent never
+NoIntent no way
+NoIntent nada
+NoIntent maybe not
+NoIntent probably not
+NoIntent less likely
+NoIntent perhaps not
+
+UndecisiveIntent I don't know
+UndecisiveIntent No idea
+UndecisiveIntent um
+UndecisiveIntent well
+UndecisiveIntent not sure
+UndecisiveIntent I have no idea
+UndecisiveIntent ask me something else
+UndecisiveIntent i don't want to answer
+UndecisiveIntent none of your concern
