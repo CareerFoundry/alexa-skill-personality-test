@@ -7,8 +7,9 @@ Data: Customize the data below as you please.
 ***********/
 
 const SKILL_NAME = "Personality Quiz";
-const HELP_MESSAGE = "Answer five questions, and I will tell you what animal you are.";
-const HELP_REPROMPT = "Your animal will be revealed after you answer my five yes or no questions.";
+const HELP_MESSAGE_BEFORE_START = "Answer five questions, and I will tell you what animal you are. Are you ready to play?";
+const HELP_MESSAGE_AFTER_START = "Just respond with yes or no and I'll give you the result in the end.";
+const HELP_REPROMPT = "Your animal will be revealed after you answer all my yes or no questions.";
 const STOP_MESSAGE = "Your spirit animal will be waiting for you next time.";
 const CANCEL_MESSAGE = "Let's go back to the beginning.";
 const MISUNDERSTOOD_INSTRUCTIONS_ANSWER = "Please answer with either yes or no.";
@@ -193,7 +194,7 @@ const handlers = {
     var currentQuestion = questions[this.attributes['questionProgress']].question;
 
     this.emit(':askWithCard', `${_randomQuestionIntro()} ${currentQuestion}`, HELP_MESSAGE, SKILL_NAME, currentQuestion);
-    //                        ^speechOutput                               ^repromptSpeech ^cardTitle ^cardContent     ^imageObj
+    //                        ^speechOutput                                   ^repromptSpeech ^cardTitle ^cardContent     ^imageObj
   },
   'YesIntent': function(){
     // Apply points unless user answers whether to start the app:
@@ -226,7 +227,8 @@ const handlers = {
     //                        ^speechOutput    ^repromptSpeech ^cardTitle ^cardContent     ^imageObj
   },
   'AMAZON.HelpIntent': function(){
-    this.emit(':askWithCard', HELP_MESSAGE, HELP_REPROMPT, SKILL_NAME);
+    var helpMessage = (this.attributes['questionProgress'] < 0) ? HELP_MESSAGE_BEFORE_START : HELP_MESSAGE_AFTER_START;
+    this.emit(':askWithCard', helpMessage, HELP_REPROMPT, SKILL_NAME);
   },
   'AMAZON.CancelIntent': function(){
     this.emit(':tellWithCard', CANCEL_MESSAGE, SKILL_NAME, CANCEL_MESSAGE);
