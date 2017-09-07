@@ -15,7 +15,15 @@ const CANCEL_MESSAGE = "Let's go back to the beginning.";
 const MISUNDERSTOOD_INSTRUCTIONS_ANSWER = "Please answer with either yes or no.";
 
 const WELCOME_MESSAGE = "Hi! I can tell you what animal you're most like. All you have to do is answer five questions with either yes or no. Are you ready to start?";
+const INITIAL_QUESTION_INTROS = [
+  "Great! Let's start!",
+  "Alrighty! Here comes your first question!",
+  "Ok let's go. Ahem.",
+  "well well."
+];
 const QUESTION_INTROS = [
+  "Oh dear.",
+  "Okey Dokey",
   "You go, human!",
   "Sure thing.",
   "I would have said that too.",
@@ -167,14 +175,20 @@ const _applyAnimalPoints = (handler, calculate) => {
 };
 
 const _randomQuestionIntro = () => {
-  // Assign all question intros to remainingQuestionIntros on the first execution:
-  let remainingQuestionIntros = remainingQuestionIntros || QUESTION_INTROS;
-  // Get a random question:
-  let randomQuestion = Math.floor(Math.random() * remainingQuestionIntros.length);
-  // Remove random Question from rameining question intros and return the removed question. If the remainingQuestions are empty return the first question:
-  return randomQuestion ? remainingQuestionIntros.splice(randomQuestion, 1) : QUESTION_INTROS[0];
+  if(this.attributes['questionProgress'] == 0){
+    // return random initial question intro if it's the first question:
+    return INITIAL_QUESTION_INTROS[_randomIndexOfArray(INITIAL_QUESTION_INTROS)];
+  }else{
+    // Assign all question intros to remainingQuestionIntros on the first execution:
+    let remainingQuestionIntros = remainingQuestionIntros || QUESTION_INTROS;
+    // randomQuestion will return 0 if the remainingQuestionIntros are empty:
+    let randomQuestion = remainingQuestionIntros.splice(_randomIndexOfArray(remainingQuestionIntros), 1);
+    // Remove random Question from rameining question intros and return the removed question. If the remainingQuestions are empty return the first question:
+    return randomQuestion ? randomQuestion : QUESTION_INTROS[0];
+  }
 };
 
+const _randomIndexOfArray = (array) => Math.floor(Math.random() * array.length);
 const _adder = (a, b) => a + b;
 const _subtracter = (a, b) => a - b;
 
