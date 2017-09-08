@@ -2,6 +2,7 @@
   {"intent": "NextQuestionIntent"},
   {"intent": "YesIntent"},
   {"intent": "NoIntent"},
+  {"intent": "UndecisiveIntent"},
   {"intent": "ResultIntent"},
   {"intent": "AMAZON.RepeatIntent"},
   {"intent": "AMAZON.HelpIntent"},
