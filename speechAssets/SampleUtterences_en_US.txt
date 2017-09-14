@@ -30,8 +30,8 @@ UndecisiveIntent I don't know
 UndecisiveIntent No idea
 UndecisiveIntent um
 UndecisiveIntent well
-UndecisiveIntent not sure
+UndecisiveIntent I'm not sure
 UndecisiveIntent I have no idea
 UndecisiveIntent ask me something else
-UndecisiveIntent i don't want to answer
-UndecisiveIntent none of your concern
+UndecisiveIntent I don't want to answer
+UndecisiveIntent none of your business
