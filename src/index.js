@@ -99,17 +99,31 @@ const animalList = {
 const questions = [
   {
     question: "Do you like spending time socializing with others?",
-    points: {
+    yesPoints: {
       starfish: 4,
       rustmite: 0,
       macaw: 5,
       goat: 3,
       toad: 1
+    },
+    noPoints: {
+      starfish: 1,
+      rustmite: 0,
+      macaw: 1,
+      goat: 2,
+      toad: 1
     }
   },
   {
     question: "Do you enjoy sunbathing?",
-    points: {
+    yesPoints: {
+      starfish: 4,
+      rustmite: 1,
+      macaw: 2,
+      goat: 3,
+      toad: 5
+    },
+    noPoints: {
       starfish: 4,
       rustmite: 1,
       macaw: 2,
@@ -119,31 +133,53 @@ const questions = [
   },
   {
     question: "Do you enjoy reading a good book more than going out to a party?",
-    points: {
+    yesPoints: {
       starfish: 0,
       rustmite: 5,
       macaw: 1,
       goat: 3,
       toad: 4
+    },
+    noPoints: {
+      starfish: 4,
+      rustmite: 1,
+      macaw: 2,
+      goat: 3,
+      toad: 5
     }
   },
   {
     question: "Do you like doing sports?",
-    points: {
+    yesPoints: {
       starfish: 2,
       rustmite: 3,
       macaw: 4,
       goat: 4,
       toad: 5
+    },
+    noPoints: {
+      starfish: 4,
+      rustmite: 1,
+      macaw: 2,
+      goat: 3,
+      toad: 5
     }
   },
   {
     question: "Do you prefer vacationing in the forest instead of on the beach?",
-    points: {
+    yesPoints: {
       starfish: 0,
       rustmite: 5,
       macaw: 3,
       goat: 4,
+      toad: 5
+    },
+
+    noPoints: {
+      starfish: 4,
+      rustmite: 1,
+      macaw: 2,
+      goat: 3,
       toad: 5
     }
   }
@@ -173,9 +209,18 @@ const _nextQuestionOrResult = (handler, prependMessage = '') => {
   }
 };
 
-const _applyAnimalPoints = (handler, calculate) => {
+const _applyAnimalYesPoints = (handler, calculate) => {
   const currentPoints = handler.attributes['animalPoints'];
-  const pointsToAdd = questions[handler.attributes['questionProgress']].points;
+  const pointsToAdd = questions[handler.attributes['questionProgress']].yesPoints;
+
+  handler.attributes['animalPoints'] = Object.keys(currentPoints).reduce((newPoints, animal) => {
+    newPoints[animal] = calculate(currentPoints[animal], pointsToAdd[animal]);
+    return newPoints;
+  }, currentPoints);
+};
+const _applyAnimalNoPoints = (handler, calculate) => {
+  const currentPoints = handler.attributes['animalPoints'];
+  const pointsToAdd = questions[handler.attributes['questionProgress']].noPoints;
 
   handler.attributes['animalPoints'] = Object.keys(currentPoints).reduce((newPoints, animal) => {
     newPoints[animal] = calculate(currentPoints[animal], pointsToAdd[animal]);
@@ -215,11 +260,11 @@ const newSessionHandlers = {
     this.emit(':askWithCard', WELCOME_MESSAGE, SKILL_NAME, WELCOME_MESSAGE);
     //                         ^speechOutput,   ^cardTitle, ^cardContent,   ^imageObj
   },
-  'YesIntent': function(){
+  'AMAZON.YesIntent': function(){
     this.handler.state = states.QUIZMODE;
     _nextQuestionOrResult(this);
   },
-  'NoIntent': function(){
+  'AMAZON.NoIntent': function(){
     this.emitWithState('AMAZON.StopIntent');
   },
   'AMAZON.HelpIntent': function(){
@@ -247,19 +292,19 @@ const quizModeHandlers = Alexa.CreateStateHandler(states.QUIZMODE, {
     this.emit(':askWithCard', `${prependMessage} ${_randomQuestionIntro(this)} ${currentQuestion}`, HELP_MESSAGE_AFTER_START, SKILL_NAME, currentQuestion);
     //                        ^speechOutput                                                         ^repromptSpeech           ^cardTitle  ^cardContent     ^imageObj
   },
-  'YesIntent': function(){
-    _applyAnimalPoints(this, _adder);
+  'AMAZON.YesIntent': function(){
+    _applyAnimalYesPoints(this, _adder);
     // Ask next question or return results when answering the last question:
     _nextQuestionOrResult(this);
   },
-  'NoIntent': function(){
-    // User is responding to a given question
-    _applyAnimalPoints(this, _subtracter);
+  'AMAZON.NoIntent': function(){
+      // User is responding to a given question
+    _applyAnimalNoPoints(this, _adder);
     _nextQuestionOrResult(this);
   },
   'UndecisiveIntent': function(){
     // Randomly apply
-    Math.round(Math.random()) ? _applyAnimalPoints(this, _adder) : _applyAnimalPoints(this, _subtracter);
+    Math.round(Math.random()) ? _applyAnimalYesPoints(this, _adder) : _applyAnimalNoPoints(this, _adder);
     _nextQuestionOrResult(this, _randomOfArray(UNDECISIVE_RESPONSES));
   },
   'AMAZON.RepeatIntent': function(){
@@ -293,12 +338,12 @@ const resultModeHandlers = Alexa.CreateStateHandler(states.RESULTMODE, {
     this.emit(':askWithCard', resultMessage, PLAY_AGAIN_REQUEST, animalList[result].display_name, animalList[result].description, animalList[result].img);
     //                        ^speechOutput  ^repromptSpeech     ^cardTitle                       ^cardContent                    ^imageObj
   },
-  'YesIntent': function(){
+  'AMAZON.YesIntent': function(){
     _initializeApp(this);
     this.handler.state = states.QUIZMODE;
     _nextQuestionOrResult(this);
   },
-  'NoIntent': function(){
+  'AMAZON.NoIntent': function(){
     this.emitWithState('AMAZON.StopIntent');
   },
   'AMAZON.HelpIntent': function(){
