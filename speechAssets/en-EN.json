@@ -1,0 +1,67 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "personality quiz",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NoIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.RepeatIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.YesIntent",
+                    "samples": []
+                },
+                {
+                    "name": "NextQuestionIntent",
+                    "slots": [],
+                    "samples": [
+                        "Next question",
+                        "Further",
+                        "NExt one"
+                    ]
+                },
+                {
+                    "name": "ResultIntent",
+                    "slots": [],
+                    "samples": [
+                        "Give me result",
+                        "What is the result",
+                        "my result"
+                    ]
+                },
+                {
+                    "name": "UndecisiveIntent",
+                    "slots": [],
+                    "samples": [
+                        "I don't know",
+                        "No idea",
+                        "um",
+                        "well",
+                        "I'm not sure",
+                        "I have no idea",
+                        "ask me something else",
+                        "I don't want to answer",
+                        "none of your business"
+                    ]
+                }
+            ],
+            "types": []
+        }
+    }
+}
