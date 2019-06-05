@@ -1,5 +1,5 @@
 'use strict';
-const Alexa = require('alexa-sdk');
+const Alexa = require('ask-sdk-v1adapter');
 const APP_ID = undefined;
 
 /***********
@@ -99,31 +99,17 @@ const animalList = {
 const questions = [
   {
     question: "Do you like spending time socializing with others?",
-    yesPoints: {
+    points: {
       starfish: 4,
       rustmite: 0,
       macaw: 5,
       goat: 3,
       toad: 1
-    },
-    noPoints: {
-      starfish: 1,
-      rustmite: 0,
-      macaw: 1,
-      goat: 2,
-      toad: 1
     }
   },
   {
     question: "Do you enjoy sunbathing?",
-    yesPoints: {
-      starfish: 4,
-      rustmite: 1,
-      macaw: 2,
-      goat: 3,
-      toad: 5
-    },
-    noPoints: {
+    points: {
       starfish: 4,
       rustmite: 1,
       macaw: 2,
@@ -133,53 +119,31 @@ const questions = [
   },
   {
     question: "Do you enjoy reading a good book more than going out to a party?",
-    yesPoints: {
+    points: {
       starfish: 0,
       rustmite: 5,
       macaw: 1,
       goat: 3,
       toad: 4
-    },
-    noPoints: {
-      starfish: 4,
-      rustmite: 1,
-      macaw: 2,
-      goat: 3,
-      toad: 5
     }
   },
   {
     question: "Do you like doing sports?",
-    yesPoints: {
+    points: {
       starfish: 2,
       rustmite: 3,
       macaw: 4,
       goat: 4,
       toad: 5
-    },
-    noPoints: {
-      starfish: 4,
-      rustmite: 1,
-      macaw: 2,
-      goat: 3,
-      toad: 5
     }
   },
   {
     question: "Do you prefer vacationing in the forest instead of on the beach?",
-    yesPoints: {
+    points: {
       starfish: 0,
       rustmite: 5,
       macaw: 3,
       goat: 4,
-      toad: 5
-    },
-
-    noPoints: {
-      starfish: 4,
-      rustmite: 1,
-      macaw: 2,
-      goat: 3,
       toad: 5
     }
   }
@@ -209,18 +173,9 @@ const _nextQuestionOrResult = (handler, prependMessage = '') => {
   }
 };
 
-const _applyAnimalYesPoints = (handler, calculate) => {
+const _applyAnimalPoints = (handler, calculate) => {
   const currentPoints = handler.attributes['animalPoints'];
-  const pointsToAdd = questions[handler.attributes['questionProgress']].yesPoints;
-
-  handler.attributes['animalPoints'] = Object.keys(currentPoints).reduce((newPoints, animal) => {
-    newPoints[animal] = calculate(currentPoints[animal], pointsToAdd[animal]);
-    return newPoints;
-  }, currentPoints);
-};
-const _applyAnimalNoPoints = (handler, calculate) => {
-  const currentPoints = handler.attributes['animalPoints'];
-  const pointsToAdd = questions[handler.attributes['questionProgress']].noPoints;
+  const pointsToAdd = questions[handler.attributes['questionProgress']].points;
 
   handler.attributes['animalPoints'] = Object.keys(currentPoints).reduce((newPoints, animal) => {
     newPoints[animal] = calculate(currentPoints[animal], pointsToAdd[animal]);
@@ -229,7 +184,7 @@ const _applyAnimalNoPoints = (handler, calculate) => {
 };
 
 const _randomQuestionIntro = handler => {
-  if(handler.attributes['questionProgress'] == 0){
+  if(handler.attributes['questionProgress'] === 0){
     // return random initial question intro if it's the first question:
     return _randomOfArray(INITIAL_QUESTION_INTROS);
   }else{
@@ -293,18 +248,18 @@ const quizModeHandlers = Alexa.CreateStateHandler(states.QUIZMODE, {
     //                        ^speechOutput                                                         ^repromptSpeech           ^cardTitle  ^cardContent     ^imageObj
   },
   'AMAZON.YesIntent': function(){
-    _applyAnimalYesPoints(this, _adder);
+    _applyAnimalPoints(this, _adder);
     // Ask next question or return results when answering the last question:
     _nextQuestionOrResult(this);
   },
   'AMAZON.NoIntent': function(){
-      // User is responding to a given question
-    _applyAnimalNoPoints(this, _adder);
+    // User is responding to a given question
+    _applyAnimalPoints(this, _subtracter);
     _nextQuestionOrResult(this);
   },
   'UndecisiveIntent': function(){
     // Randomly apply
-    Math.round(Math.random()) ? _applyAnimalYesPoints(this, _adder) : _applyAnimalNoPoints(this, _adder);
+    Math.round(Math.random()) ? _applyAnimalPoints(this, _adder) : _applyAnimalPoints(this, _subtracter);
     _nextQuestionOrResult(this, _randomOfArray(UNDECISIVE_RESPONSES));
   },
   'AMAZON.RepeatIntent': function(){
