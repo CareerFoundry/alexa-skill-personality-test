@@ -16,9 +16,9 @@ const MISUNDERSTOOD_INSTRUCTIONS_ANSWER = "Please answer with either yes or no."
 
 
 // const imgUrl = (imgName) => Util.getS3PreSignedUrl("Media/"+imgName);
-const BACKGROUND_IMAGE_URL = "https://voiceprototyping.com/cf/default.jpg";
-const BACKGROUND_GOODBYE_IMAGE_URL = "https://voiceprototyping.com/cf/goodbye.jpg";
-const BACKGROUND_HELP_IMAGE_URL = "https://voiceprototyping.com/cf/help.jpg";
+const BACKGROUND_IMAGE_URL = "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/default.jpg";
+const BACKGROUND_GOODBYE_IMAGE_URL = "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/goodbye.jpg";
+const BACKGROUND_HELP_IMAGE_URL = "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/help.jpg";
 
 const WELCOME_MESSAGE = "Hi! I can tell you what animal you're most like. All you have to do is answer five questions with either yes or no. Are you ready to start?";
 const INITIAL_QUESTION_INTROS = [
@@ -107,7 +107,7 @@ const animalList = {
 const questions = [{
     question: "Do you like spending time socializing with others?",
     questionDisplay: "Do you like spending time socializing?",
-    background:  "https://voiceprototyping.com/cf/q1.jpg", 
+    background:  "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/q1.jpg", 
     //background: imgUrl("question1.jpg"),
     points: {
       starfish: 4,
@@ -120,7 +120,7 @@ const questions = [{
   {
     question: "Do you enjoy sunbathing?",
     questionDisplay: "Do you enjoy sunbathing?",
-    background: "https://voiceprototyping.com/cf/q2.jpg", 
+    background: "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/q2.jpg", 
     //background: imgUrl("question2.jpg"),
     points: {
       starfish: 4,
@@ -133,7 +133,7 @@ const questions = [{
   {
     question: "Do you enjoy reading a good book more than going out to a party?",
     questionDisplay: "Do you enjoy a book more than a party?",
-    background: "https://voiceprototyping.com/cf/q3.jpg", 
+    background: "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/q3.jpg", 
     //background: imgUrl("question3.jpg"),
     points: {
       starfish: 0,
@@ -146,7 +146,7 @@ const questions = [{
   {
     question: "Do you like doing sports?",
     questionDisplay: "Do you like doing sports?",
-    background: "https://voiceprototyping.com/cf/q4.jpg", 
+    background: "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/q4.jpg", 
     //background: imgUrl("question4.jpg"),
     points: {
       starfish: 2,
@@ -159,7 +159,7 @@ const questions = [{
   {
     question: "Do you prefer vacationing in the forest instead of on the beach?",
     questionDisplay: "A beach vs a forest. Forest? Yes or no?",
-    background: "https://voiceprototyping.com/cf/q5.jpg", 
+    background: "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/q5.jpg", 
     //background: imgUrl("question5.jpg"),
     points: {
       starfish: 0,
