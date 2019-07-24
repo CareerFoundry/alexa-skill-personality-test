@@ -17,8 +17,11 @@ const MISUNDERSTOOD_INSTRUCTIONS_ANSWER = "Please answer with either yes or no."
 
 // const imgUrl = (imgName) => Util.getS3PreSignedUrl("Media/"+imgName);
 const BACKGROUND_IMAGE_URL = "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/default.jpg";
+// const BACKGROUND_IMAGE_URL = imgUrl("default.jpg");
 const BACKGROUND_GOODBYE_IMAGE_URL = "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/goodbye.jpg";
+// const BACKGROUND_GOODBYE_IMAGE_URL = imgUrl("goodbye.jpg");
 const BACKGROUND_HELP_IMAGE_URL = "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/help.jpg";
+// const BACKGROUND_HELP_IMAGE_URL = imgUrl("help.jpg");
 
 const WELCOME_MESSAGE = "Hi! I can tell you what animal you're most like. All you have to do is answer five questions with either yes or no. Are you ready to start?";
 const INITIAL_QUESTION_INTROS = [
@@ -50,8 +53,8 @@ const RESULT_MESSAGE = "Here comes the big reveal! You are "; // the name of the
 const RESULT_MESSAGE_SHORT = "You are "; // the name of the result is inserted here.
 const PLAY_AGAIN_REQUEST = "That was it. Do you want to play again?";
 
-const animalList = {
-  starfish: {
+const resultList = {
+  result1: {
     name: "a red-knobbed starfish",
     display_name: "Red-Knobbed Starfish",
     audio_message: "Starfish are amazing and can regrow their own limbs.",
@@ -61,7 +64,7 @@ const animalList = {
       //largeImageUrl: imgUrl("result1.jpg"),
     }
   },
-  rustmite: {
+  result2: {
     name: "a rust mite",
     display_name: "Rust Mite",
     audio_message: "You are nearly invisible to the naked eye, but you aren't to be underestimated.",
@@ -72,7 +75,7 @@ const animalList = {
       //largeImageUrl: imgUrl("result2.jpg"),
     }
   },
-  macaw: {
+  result3: {
     name: "a macaw",
     display_name: "Hyacinth Macaw",
     audio_message: "Macaws are smart and fabulous.",
@@ -82,7 +85,7 @@ const animalList = {
       //largeImageUrl: imgUrl("result3.jpg"),
     }
   },
-  goat: {
+  result4: {
     name: "a goat",
     display_name: "Good Old Goat",
     audio_message: "Baaa! You are a goat.",
@@ -92,7 +95,7 @@ const animalList = {
       //largeImageUrl: imgUrl("result4.jpg"),
     }
   },
-  toad: {
+  result5: {
     name: "a toad",
     display_name: "Toad",
     audio_message: "You dig relaxing and hanging around in the sunshine.",
@@ -110,11 +113,11 @@ const questions = [{
     background:  "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/q1.jpg", 
     //background: imgUrl("question1.jpg"),
     points: {
-      starfish: 4,
-      rustmite: 0,
-      macaw: 5,
-      goat: 3,
-      toad: 1
+      result1: 4,
+      result2: 0,
+      result3: 5,
+      result4: 3,
+      result5: 1
     }
   },
   {
@@ -123,11 +126,11 @@ const questions = [{
     background: "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/q2.jpg", 
     //background: imgUrl("question2.jpg"),
     points: {
-      starfish: 4,
-      rustmite: 1,
-      macaw: 2,
-      goat: 3,
-      toad: 5
+      result1: 4,
+      result2: 1,
+      result3: 2,
+      result4: 3,
+      result5: 5
     }
   },
   {
@@ -136,11 +139,11 @@ const questions = [{
     background: "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/q3.jpg", 
     //background: imgUrl("question3.jpg"),
     points: {
-      starfish: 0,
-      rustmite: 5,
-      macaw: 1,
-      goat: 3,
-      toad: 4
+      result1: 0,
+      result2: 5,
+      result3: 1,
+      result4: 3,
+      result5: 4
     }
   },
   {
@@ -149,11 +152,11 @@ const questions = [{
     background: "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/q4.jpg", 
     //background: imgUrl("question4.jpg"),
     points: {
-      starfish: 2,
-      rustmite: 3,
-      macaw: 4,
-      goat: 4,
-      toad: 5
+      result1: 2,
+      result2: 3,
+      result3: 4,
+      result4: 4,
+      result5: 5
     }
   },
   {
@@ -162,11 +165,11 @@ const questions = [{
     background: "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/q5.jpg", 
     //background: imgUrl("question5.jpg"),
     points: {
-      starfish: 0,
-      rustmite: 5,
-      macaw: 3,
-      goat: 4,
-      toad: 5
+      result1: 0,
+      result2: 5,
+      result3: 3,
+      result4: 4,
+      result5: 5
     }
   }
 ];
@@ -239,17 +242,17 @@ const nextQuestionIntent = (handlerInput, prependMessage) => {
 const resultIntent = (handlerInput, prependMessage) => {
   const attributesManager = handlerInput.attributesManager;
   const sessionAttributes = attributesManager.getSessionAttributes();
-  const animalPoints = sessionAttributes.animalPoints;
-  const result = Object.keys(animalPoints).reduce((o, i) => animalPoints[o] > animalPoints[i] ? o : i);
-  const resultMessage = `${prependMessage} ${RESULT_MESSAGE} ${animalList[result].name}. ${animalList[result].audio_message}. ${PLAY_AGAIN_REQUEST}`;
+  const resultPoints = sessionAttributes.resultPoints;
+  const result = Object.keys(resultPoints).reduce((o, i) => resultPoints[o] > resultPoints[i] ? o : i);
+  const resultMessage = `${prependMessage} ${RESULT_MESSAGE} ${resultList[result].name}. ${resultList[result].audio_message}. ${PLAY_AGAIN_REQUEST}`;
   return {
     prompt: resultMessage,
     reprompt: PLAY_AGAIN_REQUEST,
-    displayText: `${RESULT_MESSAGE_SHORT} ${animalList[result].name}`,
-    background: animalList[result].img.largeImageUrl
+    displayText: `${RESULT_MESSAGE_SHORT} ${resultList[result].name}`,
+    background: resultList[result].img.largeImageUrl
   }
 
-  // this.emit(':askWithCard', resultMessage, PLAY_AGAIN_REQUEST, animalList[result].display_name, animalList[result].description, animalList[result].img);
+  // this.emit(':askWithCard', resultMessage, PLAY_AGAIN_REQUEST, resultList[result].display_name, resultList[result].description, resultList[result].img);
   //                        ^speechOutput  ^repromptSpeech     ^cardTitle                       ^cardContent                    ^imageObj
 }
 
@@ -292,21 +295,21 @@ const quizModeHandler = {
     }
 
     if (request.type === 'IntentRequest' && request.intent.name === 'AMAZON.YesIntent') {
-      _applyAnimalPoints(sessionAttributes, _adder);
+      _applyresultPoints(sessionAttributes, _adder);
       sessionAttributes.state = states.QUIZMODE;
       const systemSpeak = _nextQuestionOrResult(handlerInput);
       return buildResponse(handlerInput, systemSpeak.prompt, systemSpeak.reprompt, SKILL_NAME, systemSpeak.background,systemSpeak.displayText);
     }
 
     if (request.type === 'IntentRequest' && request.intent.name === 'AMAZON.NoIntent') {
-      _applyAnimalPoints(sessionAttributes, _subtracter);
+      _applyresultPoints(sessionAttributes, _subtracter);
       sessionAttributes.state = states.QUIZMODE;
       const systemSpeak = _nextQuestionOrResult(handlerInput);
       return buildResponse(handlerInput, systemSpeak.prompt, systemSpeak.reprompt, SKILL_NAME, systemSpeak.background,systemSpeak.displayText);
     }
 
     if (request.type === 'IntentRequest' && request.intent.name === 'UndecisiveIntent') {
-      Math.round(Math.random()) ? _applyAnimalPoints(sessionAttributes, _adder) : _applyAnimalPoints(sessionAttributes, _subtracter);
+      Math.round(Math.random()) ? _applyresultPoints(sessionAttributes, _adder) : _applyresultPoints(sessionAttributes, _subtracter);
       const systemSpeak = _nextQuestionOrResult(handlerInput, _randomOfArray(UNDECISIVE_RESPONSES));
       return buildResponse(handlerInput, systemSpeak.prompt, systemSpeak.reprompt, SKILL_NAME, systemSpeak.background,systemSpeak.displayText);
     }
@@ -424,8 +427,8 @@ const _initializeApp = handler => {
   handler.questionProgress = -1;
   // Assign 0 points to each animal
   var initialPoints = {};
-  Object.keys(animalList).forEach(animal => initialPoints[animal] = 0);
-  handler.animalPoints = initialPoints;
+  Object.keys(resultList).forEach(result => initialPoints[result] = 0);
+  handler.resultPoints = initialPoints;
 };
 
 const _nextQuestionOrResult = (handlerInput, prependMessage = '') => {
@@ -442,12 +445,12 @@ const _nextQuestionOrResult = (handlerInput, prependMessage = '') => {
   }
 };
 
-const _applyAnimalPoints = (handler, calculate) => {
-  const currentPoints = handler.animalPoints;
+const _applyresultPoints = (handler, calculate) => {
+  const currentPoints = handler.resultPoints;
   const pointsToAdd = questions[handler.questionProgress].points;
 
-  handler.animalPoints = Object.keys(currentPoints).reduce((newPoints, animal) => {
-    newPoints[animal] = calculate(currentPoints[animal], pointsToAdd[animal]);
+  handler.resultPoints = Object.keys(currentPoints).reduce((newPoints, result) => {
+    newPoints[result] = calculate(currentPoints[result], pointsToAdd[result]);
     return newPoints;
   }, currentPoints);
 };
