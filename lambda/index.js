@@ -15,13 +15,13 @@ const STOP_MESSAGE = "Your spirit animal will be waiting for you next time.";
 const MISUNDERSTOOD_INSTRUCTIONS_ANSWER = "Please answer with either yes or no.";
 
 
-// const imgUrl = (imgName) => Util.getS3PreSignedUrl("Media/"+imgName);
+
 const BACKGROUND_IMAGE_URL = "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/default.jpg";
-// const BACKGROUND_IMAGE_URL = imgUrl("default.jpg");
+// const BACKGROUND_IMAGE_URL =  "default.jpg";
 const BACKGROUND_GOODBYE_IMAGE_URL = "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/goodbye.jpg";
-// const BACKGROUND_GOODBYE_IMAGE_URL = imgUrl("goodbye.jpg");
+// const BACKGROUND_GOODBYE_IMAGE_URL = "goodbye.jpg";
 const BACKGROUND_HELP_IMAGE_URL = "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/help.jpg";
-// const BACKGROUND_HELP_IMAGE_URL = imgUrl("help.jpg");
+// const BACKGROUND_HELP_IMAGE_URL = "help.jpg";
 
 const WELCOME_MESSAGE = "Hi! I can tell you what animal you're most like. All you have to do is answer five questions with either yes or no. Are you ready to start?";
 const INITIAL_QUESTION_INTROS = [
@@ -61,7 +61,7 @@ const resultList = {
     description: "Red-knobbed starfish are known for being the fashionistas of the salt water world. They always know how to look good in any circumstance. You might enjoy hanging around the edge of the pool and keeping an eye on everyone.",
     img: {
       largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Red-knobbed.starfish.1200.jpg"
-      //largeImageUrl: imgUrl("result1.jpg"),
+      //largeImageUrl: "result1.jpg",
     }
   },
   result2: {
@@ -70,9 +70,9 @@ const resultList = {
     audio_message: "You are nearly invisible to the naked eye, but you aren't to be underestimated.",
     description: "Dear old Aceria anthocoptes. Small but mighty, you love hanging around outdoors and have an unnatural affinity for thistles. Don't let anyone hold you back - while people don't notice you at first, you can have a big impact on the things around you.",
     img: {
-      
+      raw/master/test_files/
       largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Aceria_anthocoptes.1200.jpg"
-      //largeImageUrl: imgUrl("result2.jpg"),
+      //largeImageUrl: "result2.jpg",
     }
   },
   result3: {
@@ -82,7 +82,7 @@ const resultList = {
     description: "Your striking appearance is the talk of every party. You are always the most colorfully dressed one around. You're also one smart cookie - you were using tools to make your tasks easier before it was cool.",
     img: {
       largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Anodorhynchus_hyacinthinus.1200.jpg"
-      //largeImageUrl: imgUrl("result3.jpg"),
+      //largeImageUrl: "result3.jpg",
     }
   },
   result4: {
@@ -92,7 +92,7 @@ const resultList = {
     description: "Goats are some of the most amazing animals on Earth. Constantly underestimated, they are nearly as impervious to other peoples' opinions as honey badgers. You are quite handy to have around, as you're always happy to take care of leftovers at any party.",
     img: {
       largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Male_goat.1200.jpg"
-      //largeImageUrl: imgUrl("result4.jpg"),
+      //largeImageUrl: "result4.jpg",
     }
   },
   result5: {
@@ -102,7 +102,7 @@ const resultList = {
     description: "You are athletic and cool, the apple of everyone's eye. You really know how to take it easy and like to spend lots of time basking in the sun and enjoying the great outdoors. When you want to, you can be quite fast and nimble. You're always the first pick for team sports.",
     img: {
       largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Bufo_boreas.1200.jpg"
-      //largeImageUrl: imgUrl("result5.jpg"),
+      //largeImageUrl: "result5.jpg",
     }
   }
 };
@@ -111,7 +111,7 @@ const questions = [{
     question: "Do you like spending time socializing with others?",
     questionDisplay: "Do you like spending time socializing?",
     background:  "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/q1.jpg", 
-    //background: imgUrl("question1.jpg"),
+    //background: "question1.jpg",
     points: {
       result1: 4,
       result2: 0,
@@ -124,7 +124,7 @@ const questions = [{
     question: "Do you enjoy sunbathing?",
     questionDisplay: "Do you enjoy sunbathing?",
     background: "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/q2.jpg", 
-    //background: imgUrl("question2.jpg"),
+    //background: "question2.jpg",
     points: {
       result1: 4,
       result2: 1,
@@ -137,7 +137,7 @@ const questions = [{
     question: "Do you enjoy reading a good book more than going out to a party?",
     questionDisplay: "Do you enjoy a book more than a party?",
     background: "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/q3.jpg", 
-    //background: imgUrl("question3.jpg"),
+    //background: "question3.jpg",
     points: {
       result1: 0,
       result2: 5,
@@ -150,7 +150,7 @@ const questions = [{
     question: "Do you like doing sports?",
     questionDisplay: "Do you like doing sports?",
     background: "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/q4.jpg", 
-    //background: imgUrl("question4.jpg"),
+    //background: "question4.jpg",
     points: {
       result1: 2,
       result2: 3,
@@ -163,7 +163,7 @@ const questions = [{
     question: "Do you prefer vacationing in the forest instead of on the beach?",
     questionDisplay: "A beach vs a forest. Forest? Yes or no?",
     background: "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/q5.jpg", 
-    //background: imgUrl("question5.jpg"),
+    //background: "question5.jpg",
     points: {
       result1: 0,
       result2: 5,
@@ -502,6 +502,9 @@ function supportsDisplay(handlerInput) {
 
 
 function getDisplay(response, title, displayText, image_url, display_type){
+	if (!image_url.includes('https://')) {
+		image_url=Util.getS3PreSignedUrl("Media/"+image_url);
+	}
 	const image = new Alexa.ImageHelper().addImageInstance(image_url).getImage();
 
 	console.log("the display type is => " + display_type);
