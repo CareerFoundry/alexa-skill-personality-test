@@ -70,7 +70,6 @@ const resultList = {
     audio_message: "You are nearly invisible to the naked eye, but you aren't to be underestimated.",
     description: "Dear old Aceria anthocoptes. Small but mighty, you love hanging around outdoors and have an unnatural affinity for thistles. Don't let anyone hold you back - while people don't notice you at first, you can have a big impact on the things around you.",
     img: {
-      raw/master/test_files/
       largeImageUrl: "https://coach-courses-us.s3.amazonaws.com/public/courses/voice/Example%20images%20skill%203/Aceria_anthocoptes.1200.jpg"
       //largeImageUrl: "result2.jpg",
     }
