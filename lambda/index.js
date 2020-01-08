@@ -288,7 +288,7 @@ const quizModeHandler = {
     const attributesManager = handlerInput.attributesManager;
     const sessionAttributes = attributesManager.getSessionAttributes();
     var prependMessage = '';
-    if (request.type === 'IntentRequest' && request.intent.name === 'NextQuestionIntent') {
+    if (request.type === 'IntentRequest' && request.intent.name === 'AMAZON.NextIntent') {
       const systemSpeak = nextQuestionIntent(handlerInput, prependMessage);
       return buildResponse(handlerInput, systemSpeak.prompt, systemSpeak.reprompt, SKILL_NAME, systemSpeak.background,systemSpeak.displayText);
     }
