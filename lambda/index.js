@@ -1,6 +1,6 @@
 'use strict';
 const Alexa = require('ask-sdk');
-const Util = require('util.js');
+const Util = require('./util');
 
 /***********
 Data: Customize the data below as you please.
