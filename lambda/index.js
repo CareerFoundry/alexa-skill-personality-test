@@ -255,7 +255,20 @@ const resultIntent = (handlerInput, prependMessage) => {
   //                        ^speechOutput  ^repromptSpeech     ^cardTitle                       ^cardContent                    ^imageObj
 }
 
-
+const RepeatIntentHandler = {
+  canHandle(handlerInput) {
+   return Alexa.getRequestType(handlerInput.requestEnvelope) ===   'IntentRequest' && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.RepeatIntent';
+   },
+handle(handlerInput) {
+    // Get the session attributes.
+    const sessionAttributes =   
+    handlerInput.attributesManager.getSessionAttributes(); 
+    console.log('Repeat');
+    console.log(sessionAttributes.lastPrompt);
+   return 	buildResponse (handlerInput, sessionAttributes.lastPrompt, sessionAttributes.lastReprompt, sessionAttributes.lastTitle, sessionAttributes.lastImage_url,  sessionAttributes.lastDisplayText, sessionAttributes.lastDisplay_type) 
+  }
+};
+	
 const _randomIndexOfArray = (array) => Math.floor(Math.random() * array.length);
 const _randomOfArray = (array) => array[_randomIndexOfArray(array)];
 const _adder = (a, b) => a + b;
@@ -313,10 +326,12 @@ const quizModeHandler = {
       return buildResponse(handlerInput, systemSpeak.prompt, systemSpeak.reprompt, SKILL_NAME, systemSpeak.background,systemSpeak.displayText);
     }
 
-    if (request.type === 'IntentRequest' && request.intent.name === 'AMAZON.RepeatIntent') {
-      var currentQuestion = questions[sessionAttributes.questionProgress].question;
-      return buildResponse(handlerInput, currentQuestion, HELP_MESSAGE_AFTER_START, SKILL_NAME, BACKGROUND_HELP_IMAGE_URL);
-    }
+  if (request.type === 'IntentRequest' && request.intent.name === 'AMAZON.RepeatIntent') {
+        console.log('Repeat');
+    	console.log(sessionAttributes.lastPrompt);
+	   return 	buildResponse (handlerInput, sessionAttributes.lastPrompt, sessionAttributes.lastReprompt, sessionAttributes.lastTitle, sessionAttributes.lastImage_url,  sessionAttributes.lastDisplayText, sessionAttributes.lastDisplay_type) 
+	}
+    
   
   },
 };
@@ -340,19 +355,25 @@ const resultModeHandler = {
     const attributesManager = handlerInput.attributesManager;
     const sessionAttributes = attributesManager.getSessionAttributes();
     
-    if (request.intent.name === 'AMAZON.YesIntent') {
+    if (request.type === 'IntentRequest' && request.intent.name === 'AMAZON.YesIntent') {
       _initializeApp(sessionAttributes);
       sessionAttributes.state = states.QUIZMODE;
       const systemSpeak = _nextQuestionOrResult(handlerInput);
       return buildResponse(handlerInput, systemSpeak.prompt, systemSpeak.reprompt, SKILL_NAME, systemSpeak.background, systemSpeak.displayText);
     }
-    if (request.intent.name === 'AMAZON.NoIntent') {
+    if (request.type === 'IntentRequest' && request.intent.name === 'AMAZON.NoIntent') {
       const attributesManager = handlerInput.attributesManager;
       const sessionAttributes = attributesManager.getSessionAttributes();
       sessionAttributes.state = '';
       return buildResponse(handlerInput, STOP_MESSAGE, '', SKILL_NAME, BACKGROUND_GOODBYE_IMAGE_URL,STOP_MESSAGE);
     
     }
+    
+  if (request.type === 'IntentRequest' && request.intent.name === 'AMAZON.RepeatIntent') {
+        console.log('Repeat');
+    	console.log(sessionAttributes.lastPrompt);
+	   return 	buildResponse (handlerInput, sessionAttributes.lastPrompt, sessionAttributes.lastReprompt, sessionAttributes.lastTitle, sessionAttributes.lastImage_url,  sessionAttributes.lastDisplayText, sessionAttributes.lastDisplay_type) 
+	}
     
 
 
@@ -473,6 +494,13 @@ const _randomQuestionIntro = handler => {
 
 let buildResponse = (handlerInput, prompt, reprompt, title = SKILL_NAME, image_url = BACKGROUND_IMAGE_URL,  displayText = SKILL_NAME, display_type = "BodyTemplate7" ) => {
   console.log(title);
+  	const sessionAttributes = handlerInput.attributesManager.getSessionAttributes(); 
+	sessionAttributes.lastPrompt = prompt;
+	sessionAttributes.lastReprompt = reprompt;
+	sessionAttributes.lastTitle = title;
+	sessionAttributes.lastImage_url = image_url;
+	sessionAttributes.lastDisplayText = displayText;
+	sessionAttributes.lastDisplay_type = display_type;
   if (reprompt) {
     handlerInput.responseBuilder.reprompt(reprompt);
   } else {
@@ -544,7 +572,7 @@ function getDisplay(response, title, displayText, image_url, display_type){
   const skillBuilder = Alexa.SkillBuilders.custom();
   exports.handler = skillBuilder
     .addRequestHandlers(
-      SessionEndedRequestHandler, HelpIntentHandler, ExitHandler, newSessionHandler, quizModeHandler, resultModeHandler, UnhandledHandler
+      SessionEndedRequestHandler, HelpIntentHandler, ExitHandler, newSessionHandler, quizModeHandler, resultModeHandler, RepeatIntentHandler,  UnhandledHandler
     )
     //.addErrorHandlers(ErrorHandler)
     .lambda();
