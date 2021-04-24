@@ -1,0 +1,35 @@
+{
+    "type": "APL",
+    "version": "1.6",
+    "theme": "dark",
+    "import": [
+        {
+            "name": "alexa-layouts",
+            "version": "1.3.0"
+        }
+    ],
+    "mainTemplate": {
+        "parameters": [
+            "payload"
+        ],
+        "item": [
+            {
+                "type": "AlexaHeadline",
+                "id": "PlantHeadline",
+                "primaryText": "${payload.headlineTemplateData.properties.textContent.primaryText.text}",
+                "headerBackButton": false,
+                "headerAttributionPrimacy": true,
+                "footerHintText": "${payload.headlineTemplateData.properties.hintText}",
+                "backgroundImageSource": "${payload.headlineTemplateData.properties.backgroundImage.sources[0].url}",
+                "backgroundColorOverlay": false,
+                "speech": "${payload.headlineTemplateData.properties.welcomeSpeech}"
+            }
+        ]
+    },
+    "onMount": [
+        {
+            "type": "SpeakItem",
+            "componentId": "PlantHeadline"
+        }
+    ]
+}
