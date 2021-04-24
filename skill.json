@@ -3,8 +3,7 @@
     "apis": {
       "custom": {
         "endpoint": {
-          "sourceDir": "lambda/custom",
-          "uri": "ask-cf-personality-quiz"
+          "sourceDir": "lambda/custom"
 
         },
         "interfaces": [
@@ -102,7 +101,7 @@
             ""
           ],
           "keywords": [],
-          "name": "personality quiz",
+          "name": "personality test",
           "summary": "personality quiz skill"
         }
       },
