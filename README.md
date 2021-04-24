@@ -6,4 +6,4 @@ Ask Alexa to `Ask Personality Quiz` and start answering questions to determine y
 
 ## Setup
 
-See the course.
+The skill is a part of the course "Voice User Interface Design in collaboration with Amazon Alexa".
