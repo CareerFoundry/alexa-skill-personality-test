@@ -28,15 +28,6 @@
                   "samples": []
               },
               {
-                  "name": "NextQuestionIntent",
-                  "slots": [],
-                  "samples": [
-                      "Next question",
-                      "Further",
-                      "NExt one"
-                  ]
-              },
-              {
                   "name": "UndecisiveIntent",
                   "slots": [],
                   "samples": [
