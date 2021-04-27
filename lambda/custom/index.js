@@ -578,36 +578,6 @@ function getDisplay(handlerInput, title, displayText, image_url, display_type){
                 document: aplMainTemplate
             });
             
-
-	/*
-	const myTextContent = new Alexa.RichTextContentHelper()
-	.withPrimaryText(title+"<br/>")
-	.withSecondaryText(displayText)
-	.withTertiaryText("<br/> ")
-	.getTextContent();
-	
-
-	if (display_type === "BodyTemplate7"){
-		//use background image
-		response.addRenderTemplateDirective({
-			type: display_type,
-			backButton: 'visible',
-			backgroundImage: image,
-			title:displayText,
-			textContent: myTextContent,
-			});	
-	}
-	else{
-		response.addRenderTemplateDirective({
-			//use 340x340 image on the right with text on the left.
-			type: display_type,
-			backButton: 'visible',
-			image: image,
-			title:displayText,
-			textContent: myTextContent,
-			});	
-	}
-	*/
 	
 	return handlerInput;
 }
