@@ -1,7 +1,7 @@
 'use strict';
 const Alexa = require('ask-sdk');
 const Util = require('./util');
-
+const aplMainTemplate = require('./apl-main.json');
 /***********
 Data: Customize the data below as you please.
 ***********/
@@ -13,7 +13,7 @@ const HELP_MESSAGE_AFTER_START = "Just respond with yes or no and I'll give you 
 const HELP_REPROMPT = "Your animal will be revealed after you answer all my yes or no questions.";
 const STOP_MESSAGE = "Your spirit animal will be waiting for you next time.";
 const MISUNDERSTOOD_INSTRUCTIONS_ANSWER = "Please answer with either yes or no.";
-
+const HINT_TEXT = `To play again, just say "Alexa, open ${SKILL_NAME}"`
 
 
 const BACKGROUND_IMAGE_URL = "https://s3.amazonaws.com/coach-courses-us/public/courses/voice/2.7/default.jpg";
@@ -492,7 +492,7 @@ const _randomQuestionIntro = handler => {
 // Utilities
 
 
-let buildResponse = (handlerInput, prompt, reprompt, title = SKILL_NAME, image_url = BACKGROUND_IMAGE_URL,  displayText = SKILL_NAME, display_type = "BodyTemplate7" ) => {
+let buildResponse = (handlerInput, prompt, reprompt, title = SKILL_NAME, image_url = BACKGROUND_IMAGE_URL,  displayText = prompt.replace(/(<([^>]+)>)/gi, ""), display_type = "BodyTemplate7" ) => {
   console.log(title);
   	const sessionAttributes = handlerInput.attributesManager.getSessionAttributes(); 
 	sessionAttributes.lastPrompt = prompt;
@@ -506,16 +506,14 @@ let buildResponse = (handlerInput, prompt, reprompt, title = SKILL_NAME, image_u
   } else {
     handlerInput.responseBuilder.withShouldEndSession(true);
   }
-  var response;
-  if (supportsDisplay(handlerInput)) {
-    response = getDisplay(handlerInput.responseBuilder, title,  displayText, image_url, display_type)	
+   var response ;
+  if (Alexa.getSupportedInterfaces(handlerInput.requestEnvelope)['Alexa.Presentation.APL']) {
+     response = getDisplay(handlerInput, title,  prompt, image_url, display_type).responseBuilder;
+  } else {
+     response = handlerInput.responseBuilder.speak(prompt)
+            
   }
-  else{
-    response = handlerInput.responseBuilder
-  }
-  return response
-  .speak(prompt)
-  .getResponse();
+  return response.withSimpleCard(title, displayText).getResponse();
 }
 function supportsDisplay(handlerInput) {
   var hasDisplay =
@@ -528,43 +526,60 @@ function supportsDisplay(handlerInput) {
 }
 
 
-function getDisplay(response, title, displayText, image_url, display_type){
+function getDisplay(handlerInput, title, displayText, image_url, display_type){
 	if (!image_url.includes('https://')) {
 		image_url=Util.getS3PreSignedUrl("Media/"+image_url);
 	}
-	const image = new Alexa.ImageHelper().addImageInstance(image_url).getImage();
+	
 
 	console.log("the display type is => " + display_type);
     console.log(image_url);
+    var VISUAL_TOKEN = 'showthis';
+            // Create Render Directive
+            
+            handlerInput.responseBuilder.addDirective({
+                type: 'Alexa.Presentation.APL.RenderDocument',
+                datasources: {
+                        "headlineTemplateData": {
+                            "type": "object",
+                            "objectId": "headlineSample",
+                            "properties": {
+                                "backgroundImage": {
+                                    "contentDescription": null,
+                                    "smallSourceUrl": null,
+                                    "largeSourceUrl": null,
+                                    "sources": [
+                                        {
+                                            "url": image_url,
+                                            "size": "large"
+                                        }
+                                    ]
+                                },
+                                "textContent": {
+                                    "primaryText": {
+                                        "type": "PlainText",
+                                        "text": displayText.replace(/(<([^>]+)>)/gi, "")
+                                    }
+                                },
 
-	const myTextContent = new Alexa.RichTextContentHelper()
-	.withPrimaryText(title+"<br/>")
-	.withSecondaryText(displayText)
-	.withTertiaryText("<br/> ")
-	.getTextContent();
+                                "hintText": HINT_TEXT,
+                                "welcomeSpeechSSML": `<speak>${displayText}</speak>`
+                            },
+                            "transformers": [
+                                {
+                                    "inputPath": "welcomeSpeechSSML",
+                                    "transformer": "ssmlToSpeech",
+                                    "outputName": "welcomeSpeech"
+                                }
+                            ]
+                        }
+                    },
+                token: VISUAL_TOKEN,
+                document: aplMainTemplate
+            });
+            
 	
-	if (display_type === "BodyTemplate7"){
-		//use background image
-		response.addRenderTemplateDirective({
-			type: display_type,
-			backButton: 'visible',
-			backgroundImage: image,
-			title:displayText,
-			textContent: myTextContent,
-			});	
-	}
-	else{
-		response.addRenderTemplateDirective({
-			//use 340x340 image on the right with text on the left.
-			type: display_type,
-			backButton: 'visible',
-			image: image,
-			title:displayText,
-			textContent: myTextContent,
-			});	
-	}
-	
-	return response
+	return handlerInput;
 }
 
 // Init
